@@ -67,6 +67,11 @@ app.include_router(reports.router)
 app.include_router(research.router)
 
 
+@app.get("/")
+async def root():
+    return {"service": "CardioEQ AI API", "docs": "/docs", "health": "/api/health"}
+
+
 @app.get("/api/health")
 async def health_check():
     return {"status": "ok", "service": "CardioEQ AI API"}
