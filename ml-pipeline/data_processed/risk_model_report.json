@@ -1,0 +1,1149 @@
+{
+  "subject_predictions": [
+    {
+      "subject": "S01",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 38.4,
+      "risk_score_median": 32.9,
+      "risk_score_std": 25.6,
+      "n_windows": 53,
+      "probabilities": {
+        "healthy": 0.2758,
+        "mild risk": 0.5925,
+        "moderate risk": 0.1317
+      },
+      "risk_probability": 0.5389,
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 9.716699801192835,
+          "shap_value": -0.0674
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9944487470730128,
+          "shap_value": -0.0455
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": null,
+          "shap_value": 0.0394
+        },
+        {
+          "feature": "heart_rate",
+          "value": null,
+          "shap_value": -0.032
+        },
+        {
+          "feature": "sdnn",
+          "value": null,
+          "shap_value": 0.0104
+        },
+        {
+          "feature": "recovery_rate",
+          "value": null,
+          "shap_value": 0.0095
+        },
+        {
+          "feature": "rmssd",
+          "value": null,
+          "shap_value": 0.0069
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was lower than typical for this activity (9.7 observed), which lowered the anomaly-based risk estimate.",
+        "motion intensity was lower than typical for this activity (1.0 observed), which stood out from the cohort's density pattern."
+      ]
+    },
+    {
+      "subject": "S02",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 27.3,
+      "risk_score_median": 28.0,
+      "risk_score_std": 22.3,
+      "n_windows": 64,
+      "probabilities": {
+        "healthy": 0.6594,
+        "mild risk": 0.2439,
+        "moderate risk": 0.0967
+      },
+      "risk_probability": 0.8175,
+      "feature_contributions": [
+        {
+          "feature": "sdnn",
+          "value": 7.9025436456566895,
+          "shap_value": -0.0752
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.990345394160803,
+          "shap_value": 0.0674
+        },
+        {
+          "feature": "rmssd",
+          "value": 13.777517918255398,
+          "shap_value": -0.0654
+        },
+        {
+          "feature": "stress_index",
+          "value": 24.986548429060843,
+          "shap_value": -0.0561
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 571.4313725490915,
+          "shap_value": -0.0074
+        },
+        {
+          "feature": "heart_rate",
+          "value": 104.99948529662748,
+          "shap_value": 0.0051
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.0010930865228869111,
+          "shap_value": 0.003
+        }
+      ],
+      "human_readable_drivers": [
+        "HRV (SDNN) was lower than typical for this activity (7.9 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "HRV (RMSSD) was lower than typical for this activity (13.8 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S03",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 31.8,
+      "risk_score_median": 25.8,
+      "risk_score_std": 22.6,
+      "n_windows": 59,
+      "probabilities": {
+        "healthy": 0.4898,
+        "mild risk": 0.382,
+        "moderate risk": 0.1282
+      },
+      "risk_probability": 0.7039,
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": -0.018601139514800667,
+          "shap_value": -0.095
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9974761357564815,
+          "shap_value": 0.0886
+        },
+        {
+          "feature": "stress_index",
+          "value": 75.11006856730435,
+          "shap_value": 0.0744
+        },
+        {
+          "feature": "sdnn",
+          "value": 5.140541806295796,
+          "shap_value": -0.0659
+        },
+        {
+          "feature": "rmssd",
+          "value": 9.00694176587911,
+          "shap_value": -0.0587
+        },
+        {
+          "feature": "heart_rate",
+          "value": 99.6171178802595,
+          "shap_value": -0.0016
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 602.3061224489594,
+          "shap_value": -0.0009
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was lower than typical for this activity (-0.0 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "stress index was higher than typical for this activity (75.1 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S04",
+      "predicted_risk_class": "mild risk",
+      "risk_class_index": 1,
+      "risk_score": 52.3,
+      "risk_score_median": 55.3,
+      "risk_score_std": 23.3,
+      "n_windows": 53,
+      "probabilities": {
+        "healthy": 0.1193,
+        "mild risk": 0.7247,
+        "moderate risk": 0.156
+      },
+      "risk_probability": 0.6213,
+      "feature_contributions": [
+        {
+          "feature": "sdnn",
+          "value": 6.125351217017176,
+          "shap_value": -0.0697
+        },
+        {
+          "feature": "rmssd",
+          "value": 10.013034982392558,
+          "shap_value": -0.0656
+        },
+        {
+          "feature": "stress_index",
+          "value": 19.060023394925597,
+          "shap_value": -0.0392
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 576.9583333333989,
+          "shap_value": -0.02
+        },
+        {
+          "feature": "heart_rate",
+          "value": 103.99364483280397,
+          "shap_value": 0.0172
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.005708773739293836,
+          "shap_value": 0.0075
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9940397037721183,
+          "shap_value": -0.005
+        }
+      ],
+      "human_readable_drivers": [
+        "HRV (SDNN) was lower than typical for this activity (6.1 observed), which increased the anomaly-based risk estimate.",
+        "HRV (RMSSD) was lower than typical for this activity (10.0 observed), which increased the anomaly-based risk estimate.",
+        "stress index was lower than typical for this activity (19.1 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S05",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 63.2,
+      "risk_score_median": 63.2,
+      "risk_score_std": 16.5,
+      "n_windows": 56,
+      "probabilities": {
+        "healthy": 0.1472,
+        "mild risk": 0.3925,
+        "moderate risk": 0.4603
+      },
+      "risk_probability": 0.6996,
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 81.19952450258602,
+          "shap_value": 0.09
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9780800534427683,
+          "shap_value": 0.0594
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.036225301777399355,
+          "shap_value": 0.0196
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 775.4999999999295,
+          "shap_value": -0.01
+        },
+        {
+          "feature": "sdnn",
+          "value": 27.685248291867275,
+          "shap_value": -0.0069
+        },
+        {
+          "feature": "rmssd",
+          "value": 38.71761942697934,
+          "shap_value": -0.0035
+        },
+        {
+          "feature": "heart_rate",
+          "value": 77.36943907157377,
+          "shap_value": 0.0003
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (81.2 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "recovery rate was higher than typical for this activity (0.0 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S06",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 29.7,
+      "risk_score_median": 29.1,
+      "risk_score_std": 21.7,
+      "n_windows": 53,
+      "probabilities": {
+        "healthy": 0.5665,
+        "mild risk": 0.3174,
+        "moderate risk": 0.1161
+      },
+      "risk_probability": 0.7573,
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 12.076174450929887,
+          "shap_value": -0.0879
+        },
+        {
+          "feature": "heart_rate",
+          "value": 95.21237085557709,
+          "shap_value": -0.0448
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 630.1702127658497,
+          "shap_value": 0.0393
+        },
+        {
+          "feature": "sdnn",
+          "value": 32.366998187476085,
+          "shap_value": 0.0275
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.011908251517053759,
+          "shap_value": 0.0137
+        },
+        {
+          "feature": "rmssd",
+          "value": 41.740398530714906,
+          "shap_value": 0.0131
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9736667911682557,
+          "shap_value": 0.0011
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was lower than typical for this activity (12.1 observed), which lowered the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (95.2 observed), which lowered the anomaly-based risk estimate.",
+        "RR interval was lower than typical for this activity (630.2 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S07",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 69.3,
+      "risk_score_median": 69.1,
+      "risk_score_std": 15.2,
+      "n_windows": 51,
+      "probabilities": {
+        "healthy": 0.1041,
+        "mild risk": 0.2301,
+        "moderate risk": 0.6658
+      },
+      "risk_probability": 0.8324,
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9073521430250315,
+          "shap_value": -0.2624
+        },
+        {
+          "feature": "rmssd",
+          "value": 64.80883570214277,
+          "shap_value": 0.0779
+        },
+        {
+          "feature": "sdnn",
+          "value": 42.577518925160945,
+          "shap_value": 0.0703
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.06975273892301924,
+          "shap_value": -0.053
+        },
+        {
+          "feature": "stress_index",
+          "value": 68.87868893530462,
+          "shap_value": 0.052
+        },
+        {
+          "feature": "heart_rate",
+          "value": 110.38635223282668,
+          "shap_value": 0.0325
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 543.5454545453963,
+          "shap_value": -0.0296
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was lower than typical for this activity (0.9 observed), which stood out from the cohort's density pattern.",
+        "HRV (RMSSD) was higher than typical for this activity (64.8 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (SDNN) was higher than typical for this activity (42.6 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S08",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 54.5,
+      "risk_score_median": 55.5,
+      "risk_score_std": 19.5,
+      "n_windows": 53,
+      "probabilities": {
+        "healthy": 0.1404,
+        "mild risk": 0.644,
+        "moderate risk": 0.2156
+      },
+      "risk_probability": 0.511,
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9926226733141995,
+          "shap_value": 0.1172
+        },
+        {
+          "feature": "stress_index",
+          "value": 19.867613354062215,
+          "shap_value": -0.061
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.05811992122879336,
+          "shap_value": -0.0574
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 722.1250000000509,
+          "shap_value": -0.0525
+        },
+        {
+          "feature": "rmssd",
+          "value": 25.283520526008367,
+          "shap_value": -0.0413
+        },
+        {
+          "feature": "sdnn",
+          "value": 20.032265639317846,
+          "shap_value": -0.039
+        },
+        {
+          "feature": "heart_rate",
+          "value": 83.08810801453455,
+          "shap_value": 0.0294
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "stress index was lower than typical for this activity (19.9 observed), which lowered the anomaly-based risk estimate.",
+        "recovery rate was lower than typical for this activity (-0.1 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S09",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 38.0,
+      "risk_score_median": 32.8,
+      "risk_score_std": 28.2,
+      "n_windows": 55,
+      "probabilities": {
+        "healthy": 0.2886,
+        "mild risk": 0.5781,
+        "moderate risk": 0.1332
+      },
+      "risk_probability": 0.5493,
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": -0.10032945602819421,
+          "shap_value": -0.078
+        },
+        {
+          "feature": "stress_index",
+          "value": 19.624219550834052,
+          "shap_value": -0.0693
+        },
+        {
+          "feature": "sdnn",
+          "value": 41.19416365818417,
+          "shap_value": 0.0645
+        },
+        {
+          "feature": "rmssd",
+          "value": 56.590551915445275,
+          "shap_value": 0.0548
+        },
+        {
+          "feature": "heart_rate",
+          "value": 110.28285510057898,
+          "shap_value": 0.032
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 544.0555555555707,
+          "shap_value": -0.0292
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9734250789636134,
+          "shap_value": 0.0001
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was lower than typical for this activity (-0.1 observed), which increased the anomaly-based risk estimate.",
+        "stress index was lower than typical for this activity (19.6 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (SDNN) was higher than typical for this activity (41.2 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S10",
+      "predicted_risk_class": "mild risk",
+      "risk_class_index": 1,
+      "risk_score": 51.6,
+      "risk_score_median": 48.7,
+      "risk_score_std": 25.3,
+      "n_windows": 60,
+      "probabilities": {
+        "healthy": 0.1106,
+        "mild risk": 0.7512,
+        "moderate risk": 0.1381
+      },
+      "risk_probability": 0.668,
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9981036291659603,
+          "shap_value": 0.091
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.010671502697744598,
+          "shap_value": 0.0855
+        },
+        {
+          "feature": "stress_index",
+          "value": 76.81362535037293,
+          "shap_value": 0.0793
+        },
+        {
+          "feature": "heart_rate",
+          "value": 109.7914652672285,
+          "shap_value": 0.0542
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 546.4905660377348,
+          "shap_value": -0.0448
+        },
+        {
+          "feature": "sdnn",
+          "value": 9.122294417747824,
+          "shap_value": -0.0175
+        },
+        {
+          "feature": "rmssd",
+          "value": 15.818684181762302,
+          "shap_value": -0.0004
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "recovery rate was higher than typical for this activity (0.0 observed), which lowered the anomaly-based risk estimate.",
+        "stress index was higher than typical for this activity (76.8 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S11",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 33.5,
+      "risk_score_median": 39.8,
+      "risk_score_std": 26.5,
+      "n_windows": 57,
+      "probabilities": {
+        "healthy": 0.4318,
+        "mild risk": 0.4339,
+        "moderate risk": 0.1344
+      },
+      "risk_probability": 0.6613,
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": 0.025352791489114884,
+          "shap_value": 0.176
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9984505127184227,
+          "shap_value": 0.0923
+        },
+        {
+          "feature": "sdnn",
+          "value": 5.978988151618356,
+          "shap_value": -0.0557
+        },
+        {
+          "feature": "rmssd",
+          "value": 9.376388785492564,
+          "shap_value": -0.0556
+        },
+        {
+          "feature": "stress_index",
+          "value": 39.178266329436475,
+          "shap_value": -0.0289
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 596.9591836735478,
+          "shap_value": -0.0051
+        },
+        {
+          "feature": "heart_rate",
+          "value": 100.50938429454082,
+          "shap_value": 0.0033
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was higher than typical for this activity (0.0 observed), which lowered the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "HRV (SDNN) was lower than typical for this activity (6.0 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S12",
+      "predicted_risk_class": "mild risk",
+      "risk_class_index": 1,
+      "risk_score": 53.0,
+      "risk_score_median": 43.1,
+      "risk_score_std": 31.0,
+      "n_windows": 55,
+      "probabilities": {
+        "healthy": 0.1277,
+        "mild risk": 0.6962,
+        "moderate risk": 0.1762
+      },
+      "risk_probability": 0.5683,
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 97.55987295889165,
+          "shap_value": 0.1226
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.08377660434976057,
+          "shap_value": 0.0723
+        },
+        {
+          "feature": "heart_rate",
+          "value": 114.36351259361128,
+          "shap_value": 0.0528
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 524.6428571428104,
+          "shap_value": -0.0447
+        },
+        {
+          "feature": "sdnn",
+          "value": 33.48781519020634,
+          "shap_value": 0.0322
+        },
+        {
+          "feature": "rmssd",
+          "value": 44.583731235614756,
+          "shap_value": 0.0211
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9730910296290322,
+          "shap_value": -0.0012
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (97.6 observed), which increased the anomaly-based risk estimate.",
+        "recovery rate was higher than typical for this activity (0.1 observed), which lowered the anomaly-based risk estimate.",
+        "heart rate was higher than typical for this activity (114.4 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S13",
+      "predicted_risk_class": "mild risk",
+      "risk_class_index": 1,
+      "risk_score": 47.3,
+      "risk_score_median": 47.8,
+      "risk_score_std": 20.8,
+      "n_windows": 50,
+      "probabilities": {
+        "healthy": 0.0119,
+        "mild risk": 0.9771,
+        "moderate risk": 0.011
+      },
+      "risk_probability": 0.97,
+      "feature_contributions": [
+        {
+          "feature": "heart_rate",
+          "value": 118.42776927002753,
+          "shap_value": 0.0735
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 506.63793103451786,
+          "shap_value": -0.059
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9873411884412424,
+          "shap_value": 0.0554
+        },
+        {
+          "feature": "rmssd",
+          "value": 47.59828243949435,
+          "shap_value": 0.0296
+        },
+        {
+          "feature": "sdnn",
+          "value": 32.458717789522915,
+          "shap_value": 0.0279
+        },
+        {
+          "feature": "stress_index",
+          "value": 57.14332848732308,
+          "shap_value": 0.0231
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.005988495789771537,
+          "shap_value": -0.001
+        }
+      ],
+      "human_readable_drivers": [
+        "heart rate was higher than typical for this activity (118.4 observed), which increased the anomaly-based risk estimate.",
+        "RR interval was lower than typical for this activity (506.6 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern."
+      ]
+    },
+    {
+      "subject": "S14",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 85.9,
+      "risk_score_median": 87.8,
+      "risk_score_std": 10.8,
+      "n_windows": 46,
+      "probabilities": {
+        "healthy": 0.0993,
+        "mild risk": 0.1682,
+        "moderate risk": 0.7325
+      },
+      "risk_probability": 0.8055,
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.8379965494117456,
+          "shap_value": -0.4973
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.0918306835456505,
+          "shap_value": -0.0849
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 868.5294117646716,
+          "shap_value": 0.0641
+        },
+        {
+          "feature": "stress_index",
+          "value": 64.29464752164893,
+          "shap_value": 0.0484
+        },
+        {
+          "feature": "heart_rate",
+          "value": 69.08228919742908,
+          "shap_value": -0.0419
+        },
+        {
+          "feature": "sdnn",
+          "value": 35.43943642576533,
+          "shap_value": 0.0256
+        },
+        {
+          "feature": "rmssd",
+          "value": 43.511057458325595,
+          "shap_value": 0.0099
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was lower than typical for this activity (0.8 observed), which stood out from the cohort's density pattern.",
+        "recovery rate was lower than typical for this activity (-0.1 observed), which increased the anomaly-based risk estimate.",
+        "RR interval was higher than typical for this activity (868.5 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S15",
+      "predicted_risk_class": "mild risk",
+      "risk_class_index": 1,
+      "risk_score": 41.0,
+      "risk_score_median": 28.3,
+      "risk_score_std": 27.6,
+      "n_windows": 64,
+      "probabilities": {
+        "healthy": 0.1976,
+        "mild risk": 0.6874,
+        "moderate risk": 0.115
+      },
+      "risk_probability": 0.5707,
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": -0.01695379094127738,
+          "shap_value": -0.0848
+        },
+        {
+          "feature": "heart_rate",
+          "value": 89.24345886011115,
+          "shap_value": -0.0585
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 672.3181818182308,
+          "shap_value": 0.0541
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.988323790361076,
+          "shap_value": 0.054
+        },
+        {
+          "feature": "rmssd",
+          "value": 19.604223561253054,
+          "shap_value": 0.0321
+        },
+        {
+          "feature": "stress_index",
+          "value": 51.77877428998502,
+          "shap_value": 0.0073
+        },
+        {
+          "feature": "sdnn",
+          "value": 10.953968650111806,
+          "shap_value": 0.0048
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was lower than typical for this activity (-0.0 observed), which increased the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (89.2 observed), which lowered the anomaly-based risk estimate.",
+        "RR interval was higher than typical for this activity (672.3 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S16",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 61.3,
+      "risk_score_median": 64.7,
+      "risk_score_std": 21.2,
+      "n_windows": 52,
+      "probabilities": {
+        "healthy": 0.1535,
+        "mild risk": 0.4434,
+        "moderate risk": 0.4032
+      },
+      "risk_probability": 0.6582,
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": 0.13349974552578792,
+          "shap_value": 0.1129
+        },
+        {
+          "feature": "rmssd",
+          "value": 7.591418159046905,
+          "shap_value": -0.0828
+        },
+        {
+          "feature": "heart_rate",
+          "value": 88.68711397350272,
+          "shap_value": -0.078
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 676.5357142856893,
+          "shap_value": 0.0763
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9910401661100576,
+          "shap_value": 0.0701
+        },
+        {
+          "feature": "sdnn",
+          "value": 9.578069638317116,
+          "shap_value": -0.0681
+        },
+        {
+          "feature": "stress_index",
+          "value": 62.42747252747252,
+          "shap_value": 0.0361
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was higher than typical for this activity (0.1 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (RMSSD) was lower than typical for this activity (7.6 observed), which increased the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (88.7 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S17",
+      "predicted_risk_class": "healthy",
+      "risk_class_index": 0,
+      "risk_score": 39.5,
+      "risk_score_median": 35.2,
+      "risk_score_std": 20.7,
+      "n_windows": 54,
+      "probabilities": {
+        "healthy": 0.2428,
+        "mild risk": 0.631,
+        "moderate risk": 0.1262
+      },
+      "risk_probability": 0.5121,
+      "feature_contributions": [
+        {
+          "feature": "sdnn",
+          "value": 5.624159389108518,
+          "shap_value": -0.0847
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9936561440759916,
+          "shap_value": 0.0805
+        },
+        {
+          "feature": "rmssd",
+          "value": 9.163167376776938,
+          "shap_value": -0.0784
+        },
+        {
+          "feature": "heart_rate",
+          "value": 113.1922921439117,
+          "shap_value": 0.0468
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 530.0714285714483,
+          "shap_value": -0.0404
+        },
+        {
+          "feature": "stress_index",
+          "value": 52.8008230893207,
+          "shap_value": 0.0124
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.007808743227459261,
+          "shap_value": 0.0103
+        }
+      ],
+      "human_readable_drivers": [
+        "HRV (SDNN) was lower than typical for this activity (5.6 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "HRV (RMSSD) was lower than typical for this activity (9.2 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S18",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 76.7,
+      "risk_score_median": 77.7,
+      "risk_score_std": 13.6,
+      "n_windows": 54,
+      "probabilities": {
+        "healthy": 0.0058,
+        "mild risk": 0.0111,
+        "moderate risk": 0.9831
+      },
+      "risk_probability": 0.97,
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9151230892408264,
+          "shap_value": -0.2316
+        },
+        {
+          "feature": "stress_index",
+          "value": 94.86528488069246,
+          "shap_value": 0.116
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.07239772816047245,
+          "shap_value": 0.063
+        },
+        {
+          "feature": "heart_rate",
+          "value": 112.2410802353737,
+          "shap_value": 0.0419
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 534.5636363636004,
+          "shap_value": -0.0368
+        },
+        {
+          "feature": "sdnn",
+          "value": 31.11969939169951,
+          "shap_value": 0.0223
+        },
+        {
+          "feature": "rmssd",
+          "value": 41.781840819398234,
+          "shap_value": 0.0132
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was lower than typical for this activity (0.9 observed), which stood out from the cohort's density pattern.",
+        "stress index was higher than typical for this activity (94.9 observed), which increased the anomaly-based risk estimate.",
+        "recovery rate was higher than typical for this activity (0.1 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S19",
+      "predicted_risk_class": "mild risk",
+      "risk_class_index": 1,
+      "risk_score": 50.5,
+      "risk_score_median": 46.1,
+      "risk_score_std": 27.3,
+      "n_windows": 50,
+      "probabilities": {
+        "healthy": 0.0924,
+        "mild risk": 0.8012,
+        "moderate risk": 0.1064
+      },
+      "risk_probability": 0.7493,
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 93.98268262129761,
+          "shap_value": 0.1138
+        },
+        {
+          "feature": "rmssd",
+          "value": 64.50037110398334,
+          "shap_value": 0.077
+        },
+        {
+          "feature": "sdnn",
+          "value": 42.782146472415775,
+          "shap_value": 0.0712
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.05174162873623987,
+          "shap_value": -0.0383
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9822476335908882,
+          "shap_value": 0.0352
+        },
+        {
+          "feature": "heart_rate",
+          "value": 99.06439185470515,
+          "shap_value": -0.0251
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 605.6666666666691,
+          "shap_value": 0.0198
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (94.0 observed), which increased the anomaly-based risk estimate.",
+        "HRV (RMSSD) was higher than typical for this activity (64.5 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (SDNN) was higher than typical for this activity (42.8 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    {
+      "subject": "S20",
+      "predicted_risk_class": "moderate risk",
+      "risk_class_index": 2,
+      "risk_score": 71.4,
+      "risk_score_median": 74.3,
+      "risk_score_std": 19.2,
+      "n_windows": 49,
+      "probabilities": {
+        "healthy": 0.0819,
+        "mild risk": 0.1725,
+        "moderate risk": 0.7456
+      },
+      "risk_probability": 0.8774,
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 77.95693942482937,
+          "shap_value": 0.082
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 848.2285714286263,
+          "shap_value": 0.0479
+        },
+        {
+          "feature": "heart_rate",
+          "value": 70.73565076798249,
+          "shap_value": -0.0335
+        },
+        {
+          "feature": "rmssd",
+          "value": 51.06944522296674,
+          "shap_value": 0.0312
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.023945030997425686,
+          "shap_value": -0.0295
+        },
+        {
+          "feature": "sdnn",
+          "value": 34.668247647947865,
+          "shap_value": 0.0224
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9649478899924465,
+          "shap_value": 0.0072
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (78.0 observed), which increased the anomaly-based risk estimate.",
+        "RR interval was higher than typical for this activity (848.2 observed), which lowered the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (70.7 observed), which lowered the anomaly-based risk estimate."
+      ]
+    }
+  ],
+  "n_total_subjects": 20,
+  "model": "gmm_isolation_forest_unsupervised",
+  "bucket_thresholds": {
+    "mild_risk_at": 40.0,
+    "moderate_risk_at": 54.0
+  }
+}

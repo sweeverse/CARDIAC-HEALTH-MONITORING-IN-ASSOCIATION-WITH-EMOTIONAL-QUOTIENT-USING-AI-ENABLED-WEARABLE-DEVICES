@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* `ink` (the default body/heading text color) is driven by a CSS
+     variable rather than a fixed hex so every text-ink / text-ink/NN
+     usage across the app — including the many spots that were never
+     given an explicit dark:text-dark-* override — automatically flips
+     to a light, readable color under .dark instead of staying near-black
+     text on a near-black background. */
+  :root { --color-ink: 15 36 33; } /* #0F2421 */
+  .dark { --color-ink: 241 241 239; } /* #F1F1EF, matches dark.text */
+
+  /* Bumped from the browser default 16px — Tailwind's text-sm/base/etc are
+     all rem-based, so this scales every size in the app up proportionally
+     for readability, instead of hunting down every text-sm occurrence. */
+  html { font-size: 18.5px; }
+  h1, h2, h3, h4 { @apply font-display text-ink dark:text-dark-text; }
+  body { @apply bg-paper dark:bg-dark-bg transition-colors duration-300; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-red text-white px-5 py-2.5
+           text-sm font-semibold hover:bg-red-700 transition-colors shadow-card disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-white text-brand-red border border-brand-red/30 px-5 py-2.5
+           text-sm font-semibold hover:bg-red-50 transition-colors disabled:opacity-50
+           dark:bg-dark-surface dark:text-red-400 dark:border-red-900/50 dark:hover:bg-dark-card;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-ink/70 hover:bg-red-50 hover:text-brand-red transition-colors
+           dark:text-dark-muted dark:hover:bg-dark-card dark:hover:text-red-400;
+  }
+  .card {
+    @apply bg-surface border border-line/70 rounded-xl2 shadow-card
+           dark:bg-dark-card dark:border-dark-border dark:shadow-dark-card;
+  }
+  .input-field {
+    @apply w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink/35
+           focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-shadow
+           dark:bg-dark-surface dark:border-dark-border dark:text-dark-text dark:placeholder:text-dark-muted/60
+           dark:focus:ring-red-900/50 dark:focus:border-red-800;
+  }
+  .label-field {
+    @apply block text-xs font-semibold uppercase tracking-wide text-ink/70 mb-1.5
+           dark:text-dark-muted;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+  /* Dark mode risk badge overrides */
+  .dark .risk-healthy { @apply bg-green-900/30 text-green-400; }
+  .dark .risk-mild { @apply bg-orange-900/30 text-orange-400; }
+  .dark .risk-moderate { @apply bg-red-900/30 text-red-400; }
+}
+
+/* signature ECG waveform divider */
+.ecg-divider {
+  height: 28px;
+  width: 100%;
+}
+
+/* Dark mode sidebar */
+.dark aside {
+  background: #101112;
+  border-color: #2C2F32;
+}
+
+/* Dark mode topbar */
+.dark header {
+  background: rgba(18,20,21,0.92);
+  border-color: #2C2F32;
+}
+
+/* Research page: chart cards fade + slide up on mount */
+@keyframes chart-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.chart-card-enter {
+  animation: chart-card-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Smooth, app-wide light/dark transition — scoped to the properties that
+   actually change on toggle so it doesn't jank layout-affecting properties. */
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 150ms;
+  transition-timing-function: ease;
+}
+
+/* Custom scrollbar, themed for both modes instead of the raw OS default. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D0CECE; border-radius: 999px; }
+.dark ::-webkit-scrollbar-thumb { background: #2A2A2A; }
+::-webkit-scrollbar-thumb:hover { background: #CF0A0A99; }
