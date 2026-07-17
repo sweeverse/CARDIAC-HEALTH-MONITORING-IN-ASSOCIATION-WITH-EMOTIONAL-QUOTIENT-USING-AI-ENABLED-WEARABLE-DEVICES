@@ -1,0 +1,2965 @@
+[
+  {
+    "_id": "S01",
+    "subject_id": "S01",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 24.2,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 31.6,
+    "cognitive_load_index": 34.6,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": -15.51,
+      "stress_index_delta": 4.33,
+      "rmssd_delta_ms": 1.4,
+      "cognitive_load_index": 34.6,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.5389,
+      "risk_score": 38.4,
+      "class_probabilities": {
+        "healthy": 0.2758,
+        "mild risk": 0.5925,
+        "moderate risk": 0.1317
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 9.716699801192835,
+          "shap_value": -0.0674
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9944487470730128,
+          "shap_value": -0.0455
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": null,
+          "shap_value": 0.0394
+        },
+        {
+          "feature": "heart_rate",
+          "value": null,
+          "shap_value": -0.032
+        },
+        {
+          "feature": "sdnn",
+          "value": null,
+          "shap_value": 0.0104
+        },
+        {
+          "feature": "recovery_rate",
+          "value": null,
+          "shap_value": 0.0095
+        },
+        {
+          "feature": "rmssd",
+          "value": null,
+          "shap_value": 0.0069
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was lower than typical for this activity (9.7 observed), which lowered the anomaly-based risk estimate.",
+        "motion intensity was lower than typical for this activity (1.0 observed), which stood out from the cohort's density pattern."
+      ]
+    },
+    "heart_health_score": 60.9,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 12.67,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 4.8,
+        "max_points": 20,
+        "impact": -15.2
+      },
+      {
+        "feature": "sdnn",
+        "value": 7.93,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 3.4,
+        "max_points": 16,
+        "impact": -12.6
+      },
+      {
+        "feature": "stress_index",
+        "value": 28.78,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 10.03,
+        "max_points": 18,
+        "impact": -7.97
+      },
+      {
+        "feature": "spo2",
+        "value": 98.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.88,
+        "max_points": 12,
+        "impact": -0.12
+      },
+      {
+        "feature": "heart_rate",
+        "value": 95.99,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.06,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 30.0,
+      "rr_interval_ms": 60.0,
+      "rmssd": 25.0,
+      "sdnn": 25.0,
+      "stress_index": 65.0,
+      "recovery_rate": 65.0,
+      "motion_intensity": 90.0,
+      "bmi": 55.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 46.2,
+      "rr_interval_ms": 46.2,
+      "rmssd": 15.4,
+      "sdnn": 15.4,
+      "stress_index": 69.2,
+      "recovery_rate": 69.2,
+      "motion_intensity": 100.0,
+      "bmi": 61.5,
+      "age": 38.5
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S02",
+    "subject_id": "S02",
+    "demographics": {
+      "age": 23.0,
+      "bmi": 29.5,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 30.0,
+    "cognitive_load_index": 45.0,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 4.69,
+      "stress_index_delta": -16.43,
+      "rmssd_delta_ms": -0.5,
+      "cognitive_load_index": 45.0,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.8175,
+      "risk_score": 27.3,
+      "class_probabilities": {
+        "healthy": 0.6594,
+        "mild risk": 0.2439,
+        "moderate risk": 0.0967
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "sdnn",
+          "value": 7.9025436456566895,
+          "shap_value": -0.0752
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.990345394160803,
+          "shap_value": 0.0674
+        },
+        {
+          "feature": "rmssd",
+          "value": 13.777517918255398,
+          "shap_value": -0.0654
+        },
+        {
+          "feature": "stress_index",
+          "value": 24.986548429060843,
+          "shap_value": -0.0561
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 571.4313725490915,
+          "shap_value": -0.0074
+        },
+        {
+          "feature": "heart_rate",
+          "value": 104.99948529662748,
+          "shap_value": 0.0051
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.0010930865228869111,
+          "shap_value": 0.003
+        }
+      ],
+      "human_readable_drivers": [
+        "HRV (SDNN) was lower than typical for this activity (7.9 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "HRV (RMSSD) was lower than typical for this activity (13.8 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 55.2,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 17.91,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 6.79,
+        "max_points": 20,
+        "impact": -13.21
+      },
+      {
+        "feature": "stress_index",
+        "value": 47.24,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 4.92,
+        "max_points": 18,
+        "impact": -13.08
+      },
+      {
+        "feature": "sdnn",
+        "value": 10.14,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 4.34,
+        "max_points": 16,
+        "impact": -11.66
+      },
+      {
+        "feature": "heart_rate",
+        "value": 101.98,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.0,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 65.0,
+      "rr_interval_ms": 25.0,
+      "rmssd": 0.0,
+      "sdnn": 0.0,
+      "stress_index": 10.0,
+      "recovery_rate": 30.0,
+      "motion_intensity": 85.0,
+      "bmi": 85.0,
+      "age": 70.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 66.7,
+      "rr_interval_ms": 33.3,
+      "rmssd": 0.0,
+      "sdnn": 0.0,
+      "stress_index": 0.0,
+      "recovery_rate": 50.0,
+      "motion_intensity": 100.0,
+      "bmi": 83.3,
+      "age": 66.7
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S03",
+    "subject_id": "S03",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 18.6,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 30.9,
+    "cognitive_load_index": 48.5,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 2.29,
+      "stress_index_delta": -2.21,
+      "rmssd_delta_ms": 2.06,
+      "cognitive_load_index": 48.5,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.7039,
+      "risk_score": 31.8,
+      "class_probabilities": {
+        "healthy": 0.4898,
+        "mild risk": 0.382,
+        "moderate risk": 0.1282
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": -0.018601139514800667,
+          "shap_value": -0.095
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9974761357564815,
+          "shap_value": 0.0886
+        },
+        {
+          "feature": "stress_index",
+          "value": 75.11006856730435,
+          "shap_value": 0.0744
+        },
+        {
+          "feature": "sdnn",
+          "value": 5.140541806295796,
+          "shap_value": -0.0659
+        },
+        {
+          "feature": "rmssd",
+          "value": 9.00694176587911,
+          "shap_value": -0.0587
+        },
+        {
+          "feature": "heart_rate",
+          "value": 99.6171178802595,
+          "shap_value": -0.0016
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 602.3061224489594,
+          "shap_value": -0.0009
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was lower than typical for this activity (-0.0 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "stress index was higher than typical for this activity (75.1 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 41.7,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 69.07,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 0.0,
+        "max_points": 18,
+        "impact": -18.0
+      },
+      {
+        "feature": "rmssd",
+        "value": 7.82,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 2.96,
+        "max_points": 20,
+        "impact": -17.04
+      },
+      {
+        "feature": "sdnn",
+        "value": 4.46,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 1.91,
+        "max_points": 16,
+        "impact": -14.09
+      },
+      {
+        "feature": "heart_rate",
+        "value": 105.69,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.05,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 45.0,
+      "rr_interval_ms": 55.0,
+      "rmssd": 15.0,
+      "sdnn": 20.0,
+      "stress_index": 35.0,
+      "recovery_rate": 50.0,
+      "motion_intensity": 70.0,
+      "bmi": 10.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 50.0,
+      "rr_interval_ms": 50.0,
+      "rmssd": 10.0,
+      "sdnn": 20.0,
+      "stress_index": 30.0,
+      "recovery_rate": 60.0,
+      "motion_intensity": 90.0,
+      "bmi": 20.0,
+      "age": 60.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S04",
+    "subject_id": "S04",
+    "demographics": {
+      "age": 21.0,
+      "bmi": 25.0,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 41.6,
+    "cognitive_load_index": 40.1,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 1.5,
+      "stress_index_delta": 5.09,
+      "rmssd_delta_ms": 47.48,
+      "cognitive_load_index": 40.1,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "mild risk",
+      "probability": 0.6213,
+      "risk_score": 52.3,
+      "class_probabilities": {
+        "healthy": 0.1193,
+        "mild risk": 0.7247,
+        "moderate risk": 0.156
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "sdnn",
+          "value": 6.125351217017176,
+          "shap_value": -0.0697
+        },
+        {
+          "feature": "rmssd",
+          "value": 10.013034982392558,
+          "shap_value": -0.0656
+        },
+        {
+          "feature": "stress_index",
+          "value": 19.060023394925597,
+          "shap_value": -0.0392
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 576.9583333333989,
+          "shap_value": -0.02
+        },
+        {
+          "feature": "heart_rate",
+          "value": 103.99364483280397,
+          "shap_value": 0.0172
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.005708773739293836,
+          "shap_value": 0.0075
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9940397037721183,
+          "shap_value": -0.005
+        }
+      ],
+      "human_readable_drivers": [
+        "HRV (SDNN) was lower than typical for this activity (6.1 observed), which increased the anomaly-based risk estimate.",
+        "HRV (RMSSD) was lower than typical for this activity (10.0 observed), which increased the anomaly-based risk estimate.",
+        "stress index was lower than typical for this activity (19.1 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 44.1,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 7.07,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 2.68,
+        "max_points": 20,
+        "impact": -17.32
+      },
+      {
+        "feature": "heart_rate",
+        "value": 77.03,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 4.8,
+        "max_points": 22,
+        "impact": -17.2
+      },
+      {
+        "feature": "sdnn",
+        "value": 5.19,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 2.22,
+        "max_points": 16,
+        "impact": -13.78
+      },
+      {
+        "feature": "stress_index",
+        "value": 13.31,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 14.31,
+        "max_points": 18,
+        "impact": -3.69
+      },
+      {
+        "feature": "spo2",
+        "value": 99.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.02,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 20.0,
+      "rr_interval_ms": 70.0,
+      "rmssd": 40.0,
+      "sdnn": 40.0,
+      "stress_index": 70.0,
+      "recovery_rate": 20.0,
+      "motion_intensity": 75.0,
+      "bmi": 60.0,
+      "age": 10.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 30.8,
+      "rr_interval_ms": 61.5,
+      "rmssd": 46.2,
+      "sdnn": 46.2,
+      "stress_index": 76.9,
+      "recovery_rate": 15.4,
+      "motion_intensity": 84.6,
+      "bmi": 61.5,
+      "age": 7.7
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S05",
+    "subject_id": "S05",
+    "demographics": {
+      "age": 23.0,
+      "bmi": 22.1,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 46.0,
+    "cognitive_load_index": 37.0,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 3.16,
+      "stress_index_delta": -1.86,
+      "rmssd_delta_ms": 25.71,
+      "cognitive_load_index": 37.0,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.6996,
+      "risk_score": 63.2,
+      "class_probabilities": {
+        "healthy": 0.1472,
+        "mild risk": 0.3925,
+        "moderate risk": 0.4603
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 81.19952450258602,
+          "shap_value": 0.09
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9780800534427683,
+          "shap_value": 0.0594
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.036225301777399355,
+          "shap_value": 0.0196
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 775.4999999999295,
+          "shap_value": -0.01
+        },
+        {
+          "feature": "sdnn",
+          "value": 27.685248291867275,
+          "shap_value": -0.0069
+        },
+        {
+          "feature": "rmssd",
+          "value": 38.71761942697934,
+          "shap_value": -0.0035
+        },
+        {
+          "feature": "heart_rate",
+          "value": 77.36943907157377,
+          "shap_value": 0.0003
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (81.2 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "recovery rate was higher than typical for this activity (0.0 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 59.5,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 96.01,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 0.0,
+        "max_points": 18,
+        "impact": -18.0
+      },
+      {
+        "feature": "rmssd",
+        "value": 28.36,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 10.75,
+        "max_points": 20,
+        "impact": -9.25
+      },
+      {
+        "feature": "sdnn",
+        "value": 21.19,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 9.07,
+        "max_points": 16,
+        "impact": -6.93
+      },
+      {
+        "feature": "heart_rate",
+        "value": 93.6,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 20.93,
+        "max_points": 22,
+        "impact": -1.07
+      },
+      {
+        "feature": "spo2",
+        "value": 100.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.08,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 15.0,
+      "rr_interval_ms": 85.0,
+      "rmssd": 55.0,
+      "sdnn": 55.0,
+      "stress_index": 90.0,
+      "recovery_rate": 70.0,
+      "motion_intensity": 25.0,
+      "bmi": 50.0,
+      "age": 70.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 14.3,
+      "rr_interval_ms": 85.7,
+      "rmssd": 57.1,
+      "sdnn": 57.1,
+      "stress_index": 92.9,
+      "recovery_rate": 78.6,
+      "motion_intensity": 21.4,
+      "bmi": 71.4,
+      "age": 85.7
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S06",
+    "subject_id": "S06",
+    "demographics": {
+      "age": 24.0,
+      "bmi": 21.899999999999995,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 48.0,
+    "cognitive_load_index": 50.3,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 6.13,
+      "stress_index_delta": 8.05,
+      "rmssd_delta_ms": 41.26,
+      "cognitive_load_index": 50.3,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.7573,
+      "risk_score": 29.7,
+      "class_probabilities": {
+        "healthy": 0.5665,
+        "mild risk": 0.3174,
+        "moderate risk": 0.1161
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 12.076174450929887,
+          "shap_value": -0.0879
+        },
+        {
+          "feature": "heart_rate",
+          "value": 95.21237085557709,
+          "shap_value": -0.0448
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 630.1702127658497,
+          "shap_value": 0.0393
+        },
+        {
+          "feature": "sdnn",
+          "value": 32.366998187476085,
+          "shap_value": 0.0275
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.011908251517053759,
+          "shap_value": 0.0137
+        },
+        {
+          "feature": "rmssd",
+          "value": 41.740398530714906,
+          "shap_value": 0.0131
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9736667911682557,
+          "shap_value": 0.0011
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was lower than typical for this activity (12.1 observed), which lowered the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (95.2 observed), which lowered the anomaly-based risk estimate.",
+        "RR interval was lower than typical for this activity (630.2 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 78.9,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "recovery_rate",
+        "value": 0.01,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 1.41,
+        "max_points": 12,
+        "impact": -10.59
+      },
+      {
+        "feature": "sdnn",
+        "value": 27.8,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 11.9,
+        "max_points": 16,
+        "impact": -4.1
+      },
+      {
+        "feature": "rmssd",
+        "value": 44.17,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 16.74,
+        "max_points": 20,
+        "impact": -3.26
+      },
+      {
+        "feature": "stress_index",
+        "value": 3.15,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 17.13,
+        "max_points": 18,
+        "impact": -0.87
+      },
+      {
+        "feature": "spo2",
+        "value": 98.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.88,
+        "max_points": 12,
+        "impact": -0.12
+      },
+      {
+        "feature": "heart_rate",
+        "value": 105.95,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 35.0,
+      "rr_interval_ms": 65.0,
+      "rmssd": 65.0,
+      "sdnn": 60.0,
+      "stress_index": 60.0,
+      "recovery_rate": 10.0,
+      "motion_intensity": 15.0,
+      "bmi": 35.0,
+      "age": 90.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 42.9,
+      "rr_interval_ms": 64.3,
+      "rmssd": 71.4,
+      "sdnn": 64.3,
+      "stress_index": 64.3,
+      "recovery_rate": 7.1,
+      "motion_intensity": 7.1,
+      "bmi": 50.0,
+      "age": 100.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S07",
+    "subject_id": "S07",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 28.3,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 51.9,
+    "cognitive_load_index": 38.1,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 10.37,
+      "stress_index_delta": -14.31,
+      "rmssd_delta_ms": 38.12,
+      "cognitive_load_index": 38.1,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.8324,
+      "risk_score": 69.3,
+      "class_probabilities": {
+        "healthy": 0.1041,
+        "mild risk": 0.2301,
+        "moderate risk": 0.6658
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9073521430250315,
+          "shap_value": -0.2624
+        },
+        {
+          "feature": "rmssd",
+          "value": 64.80883570214277,
+          "shap_value": 0.0779
+        },
+        {
+          "feature": "sdnn",
+          "value": 42.577518925160945,
+          "shap_value": 0.0703
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.06975273892301924,
+          "shap_value": -0.053
+        },
+        {
+          "feature": "stress_index",
+          "value": 68.87868893530462,
+          "shap_value": 0.052
+        },
+        {
+          "feature": "heart_rate",
+          "value": 110.38635223282668,
+          "shap_value": 0.0325
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 543.5454545453963,
+          "shap_value": -0.0296
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was lower than typical for this activity (0.9 observed), which stood out from the cohort's density pattern.",
+        "HRV (RMSSD) was higher than typical for this activity (64.8 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (SDNN) was higher than typical for this activity (42.6 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 91.5,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 6.64,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 16.16,
+        "max_points": 18,
+        "impact": -1.84
+      },
+      {
+        "feature": "spo2",
+        "value": 97.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.76,
+        "max_points": 12,
+        "impact": -0.24
+      },
+      {
+        "feature": "heart_rate",
+        "value": 116.31,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "rmssd",
+        "value": 54.66,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 20.0,
+        "max_points": 20,
+        "impact": 0.0
+      },
+      {
+        "feature": "sdnn",
+        "value": 37.82,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 16.0,
+        "max_points": 16,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.23,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 80.0,
+      "rr_interval_ms": 20.0,
+      "rmssd": 80.0,
+      "sdnn": 75.0,
+      "stress_index": 80.0,
+      "recovery_rate": 15.0,
+      "motion_intensity": 5.0,
+      "bmi": 75.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 85.7,
+      "rr_interval_ms": 14.3,
+      "rmssd": 71.4,
+      "sdnn": 71.4,
+      "stress_index": 85.7,
+      "recovery_rate": 14.3,
+      "motion_intensity": 0.0,
+      "bmi": 57.1,
+      "age": 14.3
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S08",
+    "subject_id": "S08",
+    "demographics": {
+      "age": 21.0,
+      "bmi": 20.2,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 39.9,
+    "cognitive_load_index": 25.0,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 1.17,
+      "stress_index_delta": -12.3,
+      "rmssd_delta_ms": 15.92,
+      "cognitive_load_index": 25.0,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.511,
+      "risk_score": 54.5,
+      "class_probabilities": {
+        "healthy": 0.1404,
+        "mild risk": 0.644,
+        "moderate risk": 0.2156
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9926226733141995,
+          "shap_value": 0.1172
+        },
+        {
+          "feature": "stress_index",
+          "value": 19.867613354062215,
+          "shap_value": -0.061
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.05811992122879336,
+          "shap_value": -0.0574
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 722.1250000000509,
+          "shap_value": -0.0525
+        },
+        {
+          "feature": "rmssd",
+          "value": 25.283520526008367,
+          "shap_value": -0.0413
+        },
+        {
+          "feature": "sdnn",
+          "value": 20.032265639317846,
+          "shap_value": -0.039
+        },
+        {
+          "feature": "heart_rate",
+          "value": 83.08810801453455,
+          "shap_value": 0.0294
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "stress index was lower than typical for this activity (19.9 observed), which lowered the anomaly-based risk estimate.",
+        "recovery rate was lower than typical for this activity (-0.1 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 72.6,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 84.27,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 0.0,
+        "max_points": 18,
+        "impact": -18.0
+      },
+      {
+        "feature": "rmssd",
+        "value": 42.39,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 16.06,
+        "max_points": 20,
+        "impact": -3.94
+      },
+      {
+        "feature": "sdnn",
+        "value": 34.47,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 14.76,
+        "max_points": 16,
+        "impact": -1.24
+      },
+      {
+        "feature": "spo2",
+        "value": 98.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.88,
+        "max_points": 12,
+        "impact": -0.12
+      },
+      {
+        "feature": "heart_rate",
+        "value": 104.62,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.06,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 25.0,
+      "rr_interval_ms": 75.0,
+      "rmssd": 45.0,
+      "sdnn": 45.0,
+      "stress_index": 95.0,
+      "recovery_rate": 55.0,
+      "motion_intensity": 45.0,
+      "bmi": 20.0,
+      "age": 10.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 30.8,
+      "rr_interval_ms": 76.9,
+      "rmssd": 38.5,
+      "sdnn": 38.5,
+      "stress_index": 100.0,
+      "recovery_rate": 61.5,
+      "motion_intensity": 53.8,
+      "bmi": 30.8,
+      "age": 15.4
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S09",
+    "subject_id": "S09",
+    "demographics": {
+      "age": 21.0,
+      "bmi": 17.9,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 50.3,
+    "cognitive_load_index": 41.4,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 6.31,
+      "stress_index_delta": -2.97,
+      "rmssd_delta_ms": 41.2,
+      "cognitive_load_index": 41.4,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.5493,
+      "risk_score": 38.0,
+      "class_probabilities": {
+        "healthy": 0.2886,
+        "mild risk": 0.5781,
+        "moderate risk": 0.1332
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": -0.10032945602819421,
+          "shap_value": -0.078
+        },
+        {
+          "feature": "stress_index",
+          "value": 19.624219550834052,
+          "shap_value": -0.0693
+        },
+        {
+          "feature": "sdnn",
+          "value": 41.19416365818417,
+          "shap_value": 0.0645
+        },
+        {
+          "feature": "rmssd",
+          "value": 56.590551915445275,
+          "shap_value": 0.0548
+        },
+        {
+          "feature": "heart_rate",
+          "value": 110.28285510057898,
+          "shap_value": 0.032
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 544.0555555555707,
+          "shap_value": -0.0292
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9734250789636134,
+          "shap_value": 0.0001
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was lower than typical for this activity (-0.1 observed), which increased the anomaly-based risk estimate.",
+        "stress index was lower than typical for this activity (19.6 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (SDNN) was higher than typical for this activity (41.2 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 58.9,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 14.0,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 5.3,
+        "max_points": 20,
+        "impact": -14.7
+      },
+      {
+        "feature": "sdnn",
+        "value": 8.33,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 3.57,
+        "max_points": 16,
+        "impact": -12.43
+      },
+      {
+        "feature": "stress_index",
+        "value": 22.62,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 11.74,
+        "max_points": 18,
+        "impact": -6.26
+      },
+      {
+        "feature": "heart_rate",
+        "value": 107.04,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.0,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 55.0,
+      "rr_interval_ms": 35.0,
+      "rmssd": 70.0,
+      "sdnn": 65.0,
+      "stress_index": 40.0,
+      "recovery_rate": 0.0,
+      "motion_intensity": 95.0,
+      "bmi": 5.0,
+      "age": 10.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 60.0,
+      "rr_interval_ms": 30.0,
+      "rmssd": 80.0,
+      "sdnn": 70.0,
+      "stress_index": 40.0,
+      "recovery_rate": 0.0,
+      "motion_intensity": 100.0,
+      "bmi": 10.0,
+      "age": 20.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S10",
+    "subject_id": "S10",
+    "demographics": {
+      "age": 23.0,
+      "bmi": 43.3,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 30.8,
+    "cognitive_load_index": 34.1,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": -1.17,
+      "stress_index_delta": -15.19,
+      "rmssd_delta_ms": 0.76,
+      "cognitive_load_index": 34.1,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "mild risk",
+      "probability": 0.668,
+      "risk_score": 51.6,
+      "class_probabilities": {
+        "healthy": 0.1106,
+        "mild risk": 0.7512,
+        "moderate risk": 0.1381
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9981036291659603,
+          "shap_value": 0.091
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.010671502697744598,
+          "shap_value": 0.0855
+        },
+        {
+          "feature": "stress_index",
+          "value": 76.81362535037293,
+          "shap_value": 0.0793
+        },
+        {
+          "feature": "heart_rate",
+          "value": 109.7914652672285,
+          "shap_value": 0.0542
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 546.4905660377348,
+          "shap_value": -0.0448
+        },
+        {
+          "feature": "sdnn",
+          "value": 9.122294417747824,
+          "shap_value": -0.0175
+        },
+        {
+          "feature": "rmssd",
+          "value": 15.818684181762302,
+          "shap_value": -0.0004
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "recovery rate was higher than typical for this activity (0.0 observed), which lowered the anomaly-based risk estimate.",
+        "stress index was higher than typical for this activity (76.8 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 56.6,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 5.97,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 2.26,
+        "max_points": 20,
+        "impact": -17.74
+      },
+      {
+        "feature": "sdnn",
+        "value": 3.7,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 1.58,
+        "max_points": 16,
+        "impact": -14.42
+      },
+      {
+        "feature": "stress_index",
+        "value": 9.63,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 15.33,
+        "max_points": 18,
+        "impact": -2.67
+      },
+      {
+        "feature": "heart_rate",
+        "value": 97.01,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.15,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 70.0,
+      "rr_interval_ms": 30.0,
+      "rmssd": 5.0,
+      "sdnn": 15.0,
+      "stress_index": 15.0,
+      "recovery_rate": 75.0,
+      "motion_intensity": 80.0,
+      "bmi": 95.0,
+      "age": 70.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": null,
+      "rr_interval_ms": null,
+      "rmssd": null,
+      "sdnn": null,
+      "stress_index": null,
+      "recovery_rate": null,
+      "motion_intensity": null,
+      "bmi": null,
+      "age": null
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S11",
+    "subject_id": "S11",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 26.7,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 40.7,
+    "cognitive_load_index": 33.5,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 5.21,
+      "stress_index_delta": -10.16,
+      "rmssd_delta_ms": 46.85,
+      "cognitive_load_index": 33.5,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.6613,
+      "risk_score": 33.5,
+      "class_probabilities": {
+        "healthy": 0.4318,
+        "mild risk": 0.4339,
+        "moderate risk": 0.1344
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": 0.025352791489114884,
+          "shap_value": 0.176
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9984505127184227,
+          "shap_value": 0.0923
+        },
+        {
+          "feature": "sdnn",
+          "value": 5.978988151618356,
+          "shap_value": -0.0557
+        },
+        {
+          "feature": "rmssd",
+          "value": 9.376388785492564,
+          "shap_value": -0.0556
+        },
+        {
+          "feature": "stress_index",
+          "value": 39.178266329436475,
+          "shap_value": -0.0289
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 596.9591836735478,
+          "shap_value": -0.0051
+        },
+        {
+          "feature": "heart_rate",
+          "value": 100.50938429454082,
+          "shap_value": 0.0033
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was higher than typical for this activity (0.0 observed), which lowered the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "HRV (SDNN) was lower than typical for this activity (6.0 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 57.4,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 14.85,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 5.63,
+        "max_points": 20,
+        "impact": -14.37
+      },
+      {
+        "feature": "stress_index",
+        "value": 47.23,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 4.92,
+        "max_points": 18,
+        "impact": -13.08
+      },
+      {
+        "feature": "sdnn",
+        "value": 8.18,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 3.5,
+        "max_points": 16,
+        "impact": -12.5
+      },
+      {
+        "feature": "heart_rate",
+        "value": 104.94,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "spo2",
+        "value": 99.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.05,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 40.0,
+      "rr_interval_ms": 40.0,
+      "rmssd": 35.0,
+      "sdnn": 35.0,
+      "stress_index": 20.0,
+      "recovery_rate": 60.0,
+      "motion_intensity": 55.0,
+      "bmi": 70.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 45.5,
+      "rr_interval_ms": 36.4,
+      "rmssd": 45.5,
+      "sdnn": 45.5,
+      "stress_index": 27.3,
+      "recovery_rate": 63.6,
+      "motion_intensity": 54.5,
+      "bmi": 63.6,
+      "age": 9.1
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S12",
+    "subject_id": "S12",
+    "demographics": {
+      "age": 21.0,
+      "bmi": 17.5,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 47.6,
+    "cognitive_load_index": 46.5,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 1.39,
+      "stress_index_delta": 13.05,
+      "rmssd_delta_ms": 34.54,
+      "cognitive_load_index": 46.5,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "mild risk",
+      "probability": 0.5683,
+      "risk_score": 53.0,
+      "class_probabilities": {
+        "healthy": 0.1277,
+        "mild risk": 0.6962,
+        "moderate risk": 0.1762
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 97.55987295889165,
+          "shap_value": 0.1226
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.08377660434976057,
+          "shap_value": 0.0723
+        },
+        {
+          "feature": "heart_rate",
+          "value": 114.36351259361128,
+          "shap_value": 0.0528
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 524.6428571428104,
+          "shap_value": -0.0447
+        },
+        {
+          "feature": "sdnn",
+          "value": 33.48781519020634,
+          "shap_value": 0.0322
+        },
+        {
+          "feature": "rmssd",
+          "value": 44.583731235614756,
+          "shap_value": 0.0211
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9730910296290322,
+          "shap_value": -0.0012
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (97.6 observed), which increased the anomaly-based risk estimate.",
+        "recovery rate was higher than typical for this activity (0.1 observed), which lowered the anomaly-based risk estimate.",
+        "heart rate was higher than typical for this activity (114.4 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 64.6,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 19.9,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 7.54,
+        "max_points": 20,
+        "impact": -12.46
+      },
+      {
+        "feature": "sdnn",
+        "value": 12.3,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 5.27,
+        "max_points": 16,
+        "impact": -10.73
+      },
+      {
+        "feature": "stress_index",
+        "value": 29.75,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 9.76,
+        "max_points": 18,
+        "impact": -8.24
+      },
+      {
+        "feature": "heart_rate",
+        "value": 111.2,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "spo2",
+        "value": 99.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.06,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 85.0,
+      "rr_interval_ms": 10.0,
+      "rmssd": 60.0,
+      "sdnn": 70.0,
+      "stress_index": 75.0,
+      "recovery_rate": 90.0,
+      "motion_intensity": 40.0,
+      "bmi": 0.0,
+      "age": 10.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 90.0,
+      "rr_interval_ms": 10.0,
+      "rmssd": 60.0,
+      "sdnn": 80.0,
+      "stress_index": 80.0,
+      "recovery_rate": 100.0,
+      "motion_intensity": 50.0,
+      "bmi": 0.0,
+      "age": 20.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S13",
+    "subject_id": "S13",
+    "demographics": {
+      "age": 19.0,
+      "bmi": 19.6,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 44.8,
+    "cognitive_load_index": 53.2,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 11.93,
+      "stress_index_delta": 3.85,
+      "rmssd_delta_ms": 33.2,
+      "cognitive_load_index": 53.2,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "mild risk",
+      "probability": 0.97,
+      "risk_score": 47.3,
+      "class_probabilities": {
+        "healthy": 0.0119,
+        "mild risk": 0.9771,
+        "moderate risk": 0.011
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "heart_rate",
+          "value": 118.42776927002753,
+          "shap_value": 0.0735
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 506.63793103451786,
+          "shap_value": -0.059
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9873411884412424,
+          "shap_value": 0.0554
+        },
+        {
+          "feature": "rmssd",
+          "value": 47.59828243949435,
+          "shap_value": 0.0296
+        },
+        {
+          "feature": "sdnn",
+          "value": 32.458717789522915,
+          "shap_value": 0.0279
+        },
+        {
+          "feature": "stress_index",
+          "value": 57.14332848732308,
+          "shap_value": 0.0231
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.005988495789771537,
+          "shap_value": -0.001
+        }
+      ],
+      "human_readable_drivers": [
+        "heart rate was higher than typical for this activity (118.4 observed), which increased the anomaly-based risk estimate.",
+        "RR interval was lower than typical for this activity (506.6 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern."
+      ]
+    },
+    "heart_health_score": 70.0,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "rmssd",
+        "value": 29.74,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 11.27,
+        "max_points": 20,
+        "impact": -8.73
+      },
+      {
+        "feature": "heart_rate",
+        "value": 124.92,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 14.59,
+        "max_points": 22,
+        "impact": -7.41
+      },
+      {
+        "feature": "sdnn",
+        "value": 23.13,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 9.91,
+        "max_points": 16,
+        "impact": -6.09
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.04,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 9.88,
+        "max_points": 12,
+        "impact": -2.12
+      },
+      {
+        "feature": "stress_index",
+        "value": 7.37,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 15.96,
+        "max_points": 18,
+        "impact": -2.04
+      },
+      {
+        "feature": "spo2",
+        "value": 100.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 90.0,
+      "rr_interval_ms": 0.0,
+      "rmssd": 50.0,
+      "sdnn": 50.0,
+      "stress_index": 45.0,
+      "recovery_rate": 45.0,
+      "motion_intensity": 35.0,
+      "bmi": 15.0,
+      "age": 0.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 100.0,
+      "rr_interval_ms": 0.0,
+      "rmssd": 45.5,
+      "sdnn": 45.5,
+      "stress_index": 45.5,
+      "recovery_rate": 45.5,
+      "motion_intensity": 36.4,
+      "bmi": 27.3,
+      "age": 0.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S14",
+    "subject_id": "S14",
+    "demographics": {
+      "age": 20.0,
+      "bmi": 21.1,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 53.9,
+    "cognitive_load_index": 44.6,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 2.7,
+      "stress_index_delta": 8.15,
+      "rmssd_delta_ms": 22.19,
+      "cognitive_load_index": 44.6,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.8055,
+      "risk_score": 85.9,
+      "class_probabilities": {
+        "healthy": 0.0993,
+        "mild risk": 0.1682,
+        "moderate risk": 0.7325
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.8379965494117456,
+          "shap_value": -0.4973
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.0918306835456505,
+          "shap_value": -0.0849
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 868.5294117646716,
+          "shap_value": 0.0641
+        },
+        {
+          "feature": "stress_index",
+          "value": 64.29464752164893,
+          "shap_value": 0.0484
+        },
+        {
+          "feature": "heart_rate",
+          "value": 69.08228919742908,
+          "shap_value": -0.0419
+        },
+        {
+          "feature": "sdnn",
+          "value": 35.43943642576533,
+          "shap_value": 0.0256
+        },
+        {
+          "feature": "rmssd",
+          "value": 43.511057458325595,
+          "shap_value": 0.0099
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was lower than typical for this activity (0.8 observed), which stood out from the cohort's density pattern.",
+        "recovery rate was lower than typical for this activity (-0.1 observed), which increased the anomaly-based risk estimate.",
+        "RR interval was higher than typical for this activity (868.5 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 64.4,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 62.75,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 0.63,
+        "max_points": 18,
+        "impact": -17.37
+      },
+      {
+        "feature": "heart_rate",
+        "value": 83.18,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 10.79,
+        "max_points": 22,
+        "impact": -11.21
+      },
+      {
+        "feature": "spo2",
+        "value": 97.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.76,
+        "max_points": 12,
+        "impact": -0.24
+      },
+      {
+        "feature": "rmssd",
+        "value": 57.62,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 20.0,
+        "max_points": 20,
+        "impact": 0.0
+      },
+      {
+        "feature": "sdnn",
+        "value": 43.3,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 16.0,
+        "max_points": 16,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": -0.19,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 0.0,
+      "rr_interval_ms": 95.0,
+      "rmssd": 85.0,
+      "sdnn": 90.0,
+      "stress_index": 30.0,
+      "recovery_rate": 25.0,
+      "motion_intensity": 0.0,
+      "bmi": 30.0,
+      "age": 5.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 0.0,
+      "rr_interval_ms": 100.0,
+      "rmssd": 92.3,
+      "sdnn": 100.0,
+      "stress_index": 23.1,
+      "recovery_rate": 23.1,
+      "motion_intensity": 0.0,
+      "bmi": 46.2,
+      "age": 7.7
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S15",
+    "subject_id": "S15",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 22.0,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 32.0,
+    "cognitive_load_index": 59.4,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 10.85,
+      "stress_index_delta": -8.85,
+      "rmssd_delta_ms": -0.05,
+      "cognitive_load_index": 59.4,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "mild risk",
+      "probability": 0.5707,
+      "risk_score": 41.0,
+      "class_probabilities": {
+        "healthy": 0.1976,
+        "mild risk": 0.6874,
+        "moderate risk": 0.115
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": -0.01695379094127738,
+          "shap_value": -0.0848
+        },
+        {
+          "feature": "heart_rate",
+          "value": 89.24345886011115,
+          "shap_value": -0.0585
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 672.3181818182308,
+          "shap_value": 0.0541
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.988323790361076,
+          "shap_value": 0.054
+        },
+        {
+          "feature": "rmssd",
+          "value": 19.604223561253054,
+          "shap_value": 0.0321
+        },
+        {
+          "feature": "stress_index",
+          "value": 51.77877428998502,
+          "shap_value": 0.0073
+        },
+        {
+          "feature": "sdnn",
+          "value": 10.953968650111806,
+          "shap_value": 0.0048
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was lower than typical for this activity (-0.0 observed), which increased the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (89.2 observed), which lowered the anomaly-based risk estimate.",
+        "RR interval was higher than typical for this activity (672.3 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 88.1,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 12.16,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 14.63,
+        "max_points": 18,
+        "impact": -3.37
+      },
+      {
+        "feature": "heart_rate",
+        "value": 101.7,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 60.0,
+      "rr_interval_ms": 45.0,
+      "rmssd": 10.0,
+      "sdnn": 5.0,
+      "stress_index": 0.0,
+      "recovery_rate": 35.0,
+      "motion_intensity": 65.0,
+      "bmi": 40.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 78.6,
+      "rr_interval_ms": 35.7,
+      "rmssd": 0.0,
+      "sdnn": 0.0,
+      "stress_index": 0.0,
+      "recovery_rate": 28.6,
+      "motion_intensity": 71.4,
+      "bmi": 57.1,
+      "age": 50.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S16",
+    "subject_id": "S16",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 28.5,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 35.7,
+    "cognitive_load_index": 32.3,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 0.86,
+      "stress_index_delta": -2.92,
+      "rmssd_delta_ms": 23.8,
+      "cognitive_load_index": 32.3,
+      "interpretation": "Minimal measurable cognitive load vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.6582,
+      "risk_score": 61.3,
+      "class_probabilities": {
+        "healthy": 0.1535,
+        "mild risk": 0.4434,
+        "moderate risk": 0.4032
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "recovery_rate",
+          "value": 0.13349974552578792,
+          "shap_value": 0.1129
+        },
+        {
+          "feature": "rmssd",
+          "value": 7.591418159046905,
+          "shap_value": -0.0828
+        },
+        {
+          "feature": "heart_rate",
+          "value": 88.68711397350272,
+          "shap_value": -0.078
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 676.5357142856893,
+          "shap_value": 0.0763
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9910401661100576,
+          "shap_value": 0.0701
+        },
+        {
+          "feature": "sdnn",
+          "value": 9.578069638317116,
+          "shap_value": -0.0681
+        },
+        {
+          "feature": "stress_index",
+          "value": 62.42747252747252,
+          "shap_value": 0.0361
+        }
+      ],
+      "human_readable_drivers": [
+        "recovery rate was higher than typical for this activity (0.1 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (RMSSD) was lower than typical for this activity (7.6 observed), which increased the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (88.7 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 77.5,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 18.59,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 12.85,
+        "max_points": 18,
+        "impact": -5.15
+      },
+      {
+        "feature": "spo2",
+        "value": 98.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.88,
+        "max_points": 12,
+        "impact": -0.12
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 10.0,
+      "rr_interval_ms": 80.0,
+      "rmssd": 30.0,
+      "sdnn": 30.0,
+      "stress_index": 55.0,
+      "recovery_rate": 95.0,
+      "motion_intensity": 50.0,
+      "bmi": 80.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 0.0,
+      "rr_interval_ms": 100.0,
+      "rmssd": 28.6,
+      "sdnn": 28.6,
+      "stress_index": 42.9,
+      "recovery_rate": 100.0,
+      "motion_intensity": 42.9,
+      "bmi": 71.4,
+      "age": 14.3
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S17",
+    "subject_id": "S17",
+    "demographics": {
+      "age": 22.0,
+      "bmi": 22.0,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 32.7,
+    "cognitive_load_index": 60.5,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 1.59,
+      "stress_index_delta": 8.63,
+      "rmssd_delta_ms": -0.39,
+      "cognitive_load_index": 60.5,
+      "interpretation": "Elevated cognitive load signature (HR/stress up, HRV down vs. sitting baseline)"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "healthy",
+      "probability": 0.5121,
+      "risk_score": 39.5,
+      "class_probabilities": {
+        "healthy": 0.2428,
+        "mild risk": 0.631,
+        "moderate risk": 0.1262
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "sdnn",
+          "value": 5.624159389108518,
+          "shap_value": -0.0847
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9936561440759916,
+          "shap_value": 0.0805
+        },
+        {
+          "feature": "rmssd",
+          "value": 9.163167376776938,
+          "shap_value": -0.0784
+        },
+        {
+          "feature": "heart_rate",
+          "value": 113.1922921439117,
+          "shap_value": 0.0468
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 530.0714285714483,
+          "shap_value": -0.0404
+        },
+        {
+          "feature": "stress_index",
+          "value": 52.8008230893207,
+          "shap_value": 0.0124
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.007808743227459261,
+          "shap_value": 0.0103
+        }
+      ],
+      "human_readable_drivers": [
+        "HRV (SDNN) was lower than typical for this activity (5.6 observed), which increased the anomaly-based risk estimate.",
+        "motion intensity was higher than typical for this activity (1.0 observed), which stood out from the cohort's density pattern.",
+        "HRV (RMSSD) was lower than typical for this activity (9.2 observed), which increased the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 70.8,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 16.85,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 13.34,
+        "max_points": 18,
+        "impact": -4.66
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 75.0,
+      "rr_interval_ms": 15.0,
+      "rmssd": 20.0,
+      "sdnn": 10.0,
+      "stress_index": 5.0,
+      "recovery_rate": 40.0,
+      "motion_intensity": 60.0,
+      "bmi": 40.0,
+      "age": 35.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 85.7,
+      "rr_interval_ms": 14.3,
+      "rmssd": 14.3,
+      "sdnn": 7.1,
+      "stress_index": 7.1,
+      "recovery_rate": 35.7,
+      "motion_intensity": 64.3,
+      "bmi": 57.1,
+      "age": 50.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S18",
+    "subject_id": "S18",
+    "demographics": {
+      "age": 26.0,
+      "bmi": 30.2,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 54.6,
+    "cognitive_load_index": 46.6,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 11.35,
+      "stress_index_delta": -4.09,
+      "rmssd_delta_ms": 29.49,
+      "cognitive_load_index": 46.6,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.97,
+      "risk_score": 76.7,
+      "class_probabilities": {
+        "healthy": 0.0058,
+        "mild risk": 0.0111,
+        "moderate risk": 0.9831
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "motion_intensity",
+          "value": 0.9151230892408264,
+          "shap_value": -0.2316
+        },
+        {
+          "feature": "stress_index",
+          "value": 94.86528488069246,
+          "shap_value": 0.116
+        },
+        {
+          "feature": "recovery_rate",
+          "value": 0.07239772816047245,
+          "shap_value": 0.063
+        },
+        {
+          "feature": "heart_rate",
+          "value": 112.2410802353737,
+          "shap_value": 0.0419
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 534.5636363636004,
+          "shap_value": -0.0368
+        },
+        {
+          "feature": "sdnn",
+          "value": 31.11969939169951,
+          "shap_value": 0.0223
+        },
+        {
+          "feature": "rmssd",
+          "value": 41.781840819398234,
+          "shap_value": 0.0132
+        }
+      ],
+      "human_readable_drivers": [
+        "motion intensity was lower than typical for this activity (0.9 observed), which stood out from the cohort's density pattern.",
+        "stress index was higher than typical for this activity (94.9 observed), which increased the anomaly-based risk estimate.",
+        "recovery rate was higher than typical for this activity (0.1 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 73.5,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 69.89,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 0.0,
+        "max_points": 18,
+        "impact": -18.0
+      },
+      {
+        "feature": "spo2",
+        "value": 97.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.76,
+        "max_points": 12,
+        "impact": -0.24
+      },
+      {
+        "feature": "heart_rate",
+        "value": 116.38,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "rmssd",
+        "value": 77.05,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 20.0,
+        "max_points": 20,
+        "impact": 0.0
+      },
+      {
+        "feature": "sdnn",
+        "value": 57.94,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 16.0,
+        "max_points": 16,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.35,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 95.0,
+      "rr_interval_ms": 5.0,
+      "rmssd": 95.0,
+      "sdnn": 95.0,
+      "stress_index": 85.0,
+      "recovery_rate": 5.0,
+      "motion_intensity": 10.0,
+      "bmi": 90.0,
+      "age": 95.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 100.0,
+      "rr_interval_ms": 0.0,
+      "rmssd": 100.0,
+      "sdnn": 100.0,
+      "stress_index": 100.0,
+      "recovery_rate": 0.0,
+      "motion_intensity": 25.0,
+      "bmi": 100.0,
+      "age": 100.0
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S19",
+    "subject_id": "S19",
+    "demographics": {
+      "age": 23.0,
+      "bmi": 25.0,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 54.3,
+    "cognitive_load_index": 42.8,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 5.34,
+      "stress_index_delta": 0.65,
+      "rmssd_delta_ms": 27.1,
+      "cognitive_load_index": 42.8,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "mild risk",
+      "probability": 0.7493,
+      "risk_score": 50.5,
+      "class_probabilities": {
+        "healthy": 0.0924,
+        "mild risk": 0.8012,
+        "moderate risk": 0.1064
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 93.98268262129761,
+          "shap_value": 0.1138
+        },
+        {
+          "feature": "rmssd",
+          "value": 64.50037110398334,
+          "shap_value": 0.077
+        },
+        {
+          "feature": "sdnn",
+          "value": 42.782146472415775,
+          "shap_value": 0.0712
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.05174162873623987,
+          "shap_value": -0.0383
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9822476335908882,
+          "shap_value": 0.0352
+        },
+        {
+          "feature": "heart_rate",
+          "value": 99.06439185470515,
+          "shap_value": -0.0251
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 605.6666666666691,
+          "shap_value": 0.0198
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (94.0 observed), which increased the anomaly-based risk estimate.",
+        "HRV (RMSSD) was higher than typical for this activity (64.5 observed), which lowered the anomaly-based risk estimate.",
+        "HRV (SDNN) was higher than typical for this activity (42.8 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 95.0,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 4.48,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 16.76,
+        "max_points": 18,
+        "impact": -1.24
+      },
+      {
+        "feature": "heart_rate",
+        "value": 105.32,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 22.0,
+        "max_points": 22,
+        "impact": 0.0
+      },
+      {
+        "feature": "rmssd",
+        "value": 63.51,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 20.0,
+        "max_points": 20,
+        "impact": 0.0
+      },
+      {
+        "feature": "sdnn",
+        "value": 41.62,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 16.0,
+        "max_points": 16,
+        "impact": 0.0
+      },
+      {
+        "feature": "spo2",
+        "value": 100.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.22,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 50.0,
+      "rr_interval_ms": 50.0,
+      "rmssd": 90.0,
+      "sdnn": 85.0,
+      "stress_index": 25.0,
+      "recovery_rate": 85.0,
+      "motion_intensity": 30.0,
+      "bmi": 60.0,
+      "age": 70.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 69.2,
+      "rr_interval_ms": 38.5,
+      "rmssd": 100.0,
+      "sdnn": 92.3,
+      "stress_index": 30.8,
+      "recovery_rate": 92.3,
+      "motion_intensity": 38.5,
+      "bmi": 61.5,
+      "age": 76.9
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  },
+  {
+    "_id": "S20",
+    "subject_id": "S20",
+    "demographics": {
+      "age": 21.0,
+      "bmi": 20.6,
+      "height_cm": null,
+      "weight_kg": null
+    },
+    "eq_score": null,
+    "eq_subscores": null,
+    "eq_completed_at": null,
+    "composure_index_proxy": 51.9,
+    "cognitive_load_index": 42.8,
+    "cognitive_load_detail": {
+      "heart_rate_delta_bpm": 1.5,
+      "stress_index_delta": 8.35,
+      "rmssd_delta_ms": 24.92,
+      "cognitive_load_index": 42.8,
+      "interpretation": "Mixed/inconclusive signal vs. sitting baseline"
+    },
+    "air_quality_index": null,
+    "risk_assessment": {
+      "predicted_class": "moderate risk",
+      "probability": 0.8774,
+      "risk_score": 71.4,
+      "class_probabilities": {
+        "healthy": 0.0819,
+        "mild risk": 0.1725,
+        "moderate risk": 0.7456
+      },
+      "model": "Unsupervised anomaly score (GMM + Isolation Forest, activity-normalized, no clinician labels used)",
+      "feature_contributions": [
+        {
+          "feature": "stress_index",
+          "value": 77.95693942482937,
+          "shap_value": 0.082
+        },
+        {
+          "feature": "rr_interval_ms",
+          "value": 848.2285714286263,
+          "shap_value": 0.0479
+        },
+        {
+          "feature": "heart_rate",
+          "value": 70.73565076798249,
+          "shap_value": -0.0335
+        },
+        {
+          "feature": "rmssd",
+          "value": 51.06944522296674,
+          "shap_value": 0.0312
+        },
+        {
+          "feature": "recovery_rate",
+          "value": -0.023945030997425686,
+          "shap_value": -0.0295
+        },
+        {
+          "feature": "sdnn",
+          "value": 34.668247647947865,
+          "shap_value": 0.0224
+        },
+        {
+          "feature": "motion_intensity",
+          "value": 0.9649478899924465,
+          "shap_value": 0.0072
+        }
+      ],
+      "human_readable_drivers": [
+        "stress index was higher than typical for this activity (78.0 observed), which increased the anomaly-based risk estimate.",
+        "RR interval was higher than typical for this activity (848.2 observed), which lowered the anomaly-based risk estimate.",
+        "heart rate was lower than typical for this activity (70.7 observed), which lowered the anomaly-based risk estimate."
+      ]
+    },
+    "heart_health_score": 77.6,
+    "heart_health_score_breakdown": [
+      {
+        "feature": "stress_index",
+        "value": 29.21,
+        "healthy_range": "24.33-65.02",
+        "points_awarded": 9.91,
+        "max_points": 18,
+        "impact": -8.09
+      },
+      {
+        "feature": "heart_rate",
+        "value": 87.54,
+        "healthy_range": "94.7-117.3",
+        "points_awarded": 15.03,
+        "max_points": 22,
+        "impact": -6.97
+      },
+      {
+        "feature": "spo2",
+        "value": 95.0,
+        "healthy_range": "98.0-99.0",
+        "points_awarded": 11.52,
+        "max_points": 12,
+        "impact": -0.48
+      },
+      {
+        "feature": "rmssd",
+        "value": 53.35,
+        "healthy_range": "9.7-52.77",
+        "points_awarded": 20.0,
+        "max_points": 20,
+        "impact": 0.0
+      },
+      {
+        "feature": "sdnn",
+        "value": 40.76,
+        "healthy_range": "6.27-37.36",
+        "points_awarded": 16.0,
+        "max_points": 16,
+        "impact": 0.0
+      },
+      {
+        "feature": "recovery_rate",
+        "value": 0.13,
+        "healthy_range": "-0.05-0.05",
+        "points_awarded": 12.0,
+        "max_points": 12,
+        "impact": 0.0
+      }
+    ],
+    "population_percentile": {
+      "heart_rate": 5.0,
+      "rr_interval_ms": 90.0,
+      "rmssd": 75.0,
+      "sdnn": 80.0,
+      "stress_index": 50.0,
+      "recovery_rate": 80.0,
+      "motion_intensity": 20.0,
+      "bmi": 25.0,
+      "age": 10.0
+    },
+    "similar_cohort_percentile": {
+      "heart_rate": 7.7,
+      "rr_interval_ms": 92.3,
+      "rmssd": 84.6,
+      "sdnn": 84.6,
+      "stress_index": 53.8,
+      "recovery_rate": 84.6,
+      "motion_intensity": 15.4,
+      "bmi": 38.5,
+      "age": 15.4
+    },
+    "activities_recorded": [
+      "cog",
+      "run",
+      "sit",
+      "walk"
+    ]
+  }
+]
