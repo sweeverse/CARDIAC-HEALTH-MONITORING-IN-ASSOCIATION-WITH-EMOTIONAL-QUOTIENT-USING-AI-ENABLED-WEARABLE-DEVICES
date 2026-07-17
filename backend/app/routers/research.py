@@ -19,6 +19,7 @@ from fastapi import APIRouter, Depends
 
 from app.db import get_db, COL_SUBJECTS, COL_SESSIONS
 from app.security import get_current_user
+from app.ml_core.feature_extraction import normalize_subject_id
 
 router = APIRouter(prefix="/api/research", tags=["research"])
 
@@ -203,14 +204,38 @@ async def get_eq_cardiac_correlation(current_user: dict = Depends(get_current_us
     offline recompute step.
     """
     db = get_db()
-    subjects = [s async for s in db[COL_SUBJECTS].find({"eq_score": {"$ne": None}})]
-    subject_ids = [s["subject_id"] for s in subjects]
-    eq_by_subject = {s["subject_id"]: s["eq_score"] for s in subjects}
+    subjects_raw = [s async for s in db[COL_SUBJECTS].find({"eq_score": {"$ne": None}})]
 
-    sessions = [sess async for sess in db[COL_SESSIONS].find({"subject_id": {"$in": subject_ids}})] if subject_ids else []
+    # Canonicalize + de-duplicate subject IDs before doing anything else.
+    # Historically some subject_id values landed in Mongo in a slightly
+    # different form than the canonical "S01" style (pre-normalize_subject_id
+    # signups, admin edge cases, etc.) — two docs like "S20" and "s20"/"S2"
+    # are the SAME subject to a person reading the page, but a raw string
+    # match treats them as different, which is what produced duplicate
+    # entries (e.g. two "S20"s) and a self-reported EQ score that didn't
+    # match the point actually plotted for that subject (whichever
+    # duplicate happened to be read first/last off different queries).
+    # Keeping exactly one doc per normalized ID — the one with the most
+    # recently completed EQ questionnaire — makes every value on this page
+    # (header EQ score, scatter point, tooltip) come from the same record.
+    by_norm_id: dict[str, dict] = {}
+    for s in subjects_raw:
+        norm_id = normalize_subject_id(str(s.get("subject_id") or "").strip())
+        if not norm_id:
+            continue
+        s["subject_id"] = norm_id
+        prev = by_norm_id.get(norm_id)
+        if prev is None or (s.get("eq_completed_at") or "") >= (prev.get("eq_completed_at") or ""):
+            by_norm_id[norm_id] = s
+    subjects = list(by_norm_id.values())
+    subject_ids = [s["subject_id"] for s in subjects]
+
+    sessions = [sess async for sess in db[COL_SESSIONS].find({})] if subject_ids else []
     sessions_by_subject: dict[str, list[dict]] = {}
     for sess in sessions:
-        sessions_by_subject.setdefault(sess["subject_id"], []).append(sess)
+        sid = normalize_subject_id(str(sess.get("subject_id") or "").strip())
+        if sid in by_norm_id:
+            sessions_by_subject.setdefault(sid, []).append(sess)
 
     # One row per subject with an EQ score AND at least one recorded session
     # — subject-level fields come straight off the subject doc; session-level

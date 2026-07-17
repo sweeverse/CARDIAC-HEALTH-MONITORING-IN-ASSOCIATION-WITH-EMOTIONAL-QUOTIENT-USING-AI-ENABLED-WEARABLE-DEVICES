@@ -167,6 +167,12 @@ def _assert_can_view_subject(subject_id: str, current_user: dict):
 
 @router.get("/{subject_id}")
 async def get_subject(subject_id: str, current_user: dict = Depends(get_current_user)):
+    # Normalize before querying — same reasoning as the EQ-assessment
+    # endpoints below: a caller (e.g. the Research page, working off an
+    # already-canonicalized ID) shouldn't 404 just because the stored
+    # subject_id predates normalize_subject_id or was entered in a
+    # slightly different form.
+    subject_id = normalize_subject_id(subject_id)
     _assert_can_view_subject(subject_id, current_user)
     db = get_db()
     doc = await db[COL_SUBJECTS].find_one({"subject_id": subject_id})

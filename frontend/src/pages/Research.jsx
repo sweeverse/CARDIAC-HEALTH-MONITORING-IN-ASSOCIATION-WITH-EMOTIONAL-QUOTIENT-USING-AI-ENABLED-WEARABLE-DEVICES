@@ -1,8 +1,8 @@
 import { Component, useEffect, useMemo, useState } from 'react'
 import {
-  ComposedChart, Scatter, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  ComposedChart, Scatter, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer,
 } from 'recharts'
-import { Info, Loader2, HeartPulse, Grid3x3, ClipboardCheck, LineChart } from 'lucide-react'
+import { Info, Loader2, HeartPulse, Grid3x3, ClipboardCheck, LineChart, Maximize2, X } from 'lucide-react'
 import { Endpoints } from '../lib/api.js'
 import { formatSubjectId } from '../lib/subjectId.js'
 import { onDataChanged } from '../lib/syncBus.js'
@@ -14,6 +14,13 @@ const FEATURE_LABELS = {
   motion_intensity: 'Motion Intensity', bmi: 'BMI', age: 'Age',
 }
 const ACTIVITY_LABELS = { sit: 'Sit', walk: 'Walk', run: 'Run', cog: 'Cognitive Task' }
+
+// Compare two subject IDs the way a person reading the page would — "S2",
+// "s02", and "S02" are all the same subject. Every place this page matches
+// a data point to the highlighted/selected subject goes through this
+// instead of raw string equality, so a stray unnormalized ID (old record,
+// case difference, etc.) can never point the highlight at the wrong dot.
+const sameSubject = (a, b) => !!a && !!b && formatSubjectId(a).toLowerCase() === formatSubjectId(b).toLowerCase()
 
 // Per-metric glossary shown in each scatter card's hover tooltip. Keyed by
 // CARDIAC_METRICS' key (routers/research.py) so this never drifts out of
@@ -94,7 +101,12 @@ export default function Research() {
   // subject the conclusion is for, and re-picks it any time the selection
   // changes (handled below by the effect keying off highlightSubject).
   useEffect(() => {
-    if (!isAdmin && user?.subject_id) setHighlightSubject(user.subject_id)
+    // Canonicalize here too (formatSubjectId pads "S2" -> "S02" etc.) — the
+    // logged-in user's own subject_id can predate a normalization fix and
+    // sit in a slightly different form than what the backend now always
+    // returns, which is exactly what made a subject's own highlighted point
+    // fail to match their own data.
+    if (!isAdmin && user?.subject_id) setHighlightSubject(formatSubjectId(user.subject_id))
   }, [isAdmin, user?.subject_id])
 
   // Whenever the highlighted subject changes (admin picks a new one from the
@@ -267,6 +279,13 @@ function MetricInfoButton({ metricLabel, info }) {
 // (Task 14-18) — nothing here is hardcoded; it re-renders from whatever's
 // actually in Mongo on every page load.
 function EqCardiacDashboard({ data, highlightSubject, setHighlightSubject, isAdmin }) {
+  // Which metric card is currently blown up into the large modal view.
+  // The small cards are dense — several subjects' points can sit only a
+  // few pixels apart — so hovering exact dots there is fiddly and easy to
+  // mismatch. The large modal view (bigger canvas, more breathing room
+  // between points) is the accurate place to actually read individual
+  // subjects; the small card is just a preview/entry point into it.
+  const [expandedMetric, setExpandedMetric] = useState(null)
   if (!data) return null
 
   if (data.insufficient_data) {
@@ -276,6 +295,8 @@ function EqCardiacDashboard({ data, highlightSubject, setHighlightSubject, isAdm
       </Card>
     )
   }
+
+  const expandedAnalysis = expandedMetric ? data.analyses.find((a) => a.metric_key === expandedMetric) : null
 
   return (
     <div className="space-y-5">
@@ -293,12 +314,14 @@ function EqCardiacDashboard({ data, highlightSubject, setHighlightSubject, isAdm
               onChange={(e) => setHighlightSubject(e.target.value)}
             >
               <option value="">None (all gray)</option>
-              {data.eligible_subject_ids.map((sid) => (
-                <option key={sid} value={sid}>{formatSubjectId(sid)}</option>
+              {/* Dedupe by canonical form so a stray unnormalized duplicate
+                  ID never shows up twice in the list. */}
+              {[...new Map(data.eligible_subject_ids.map((sid) => [formatSubjectId(sid), sid])).values()].map((sid) => (
+                <option key={formatSubjectId(sid)} value={sid}>{formatSubjectId(sid)}</option>
               ))}
             </select>
           </label>
-        ) : highlightSubject && data.eligible_subject_ids.includes(highlightSubject) ? (
+        ) : highlightSubject && data.eligible_subject_ids.some((sid) => sameSubject(sid, highlightSubject)) ? (
           <span className="pill bg-brand-red/10 text-brand-red border border-brand-red/20 text-xs">
             Showing your data — {formatSubjectId(highlightSubject)}
           </span>
@@ -306,7 +329,7 @@ function EqCardiacDashboard({ data, highlightSubject, setHighlightSubject, isAdm
       </div>
 
       {highlightSubject && (() => {
-        const eqPoint = data.analyses[0]?.points?.find((p) => p.subject_id === highlightSubject)
+        const eqPoint = data.analyses[0]?.points?.find((p) => sameSubject(p.subject_id, highlightSubject))
         return eqPoint ? (
           <div className="card p-5 flex items-baseline gap-2">
             <span className="text-xs uppercase tracking-wide text-ink/60 dark:text-dark-muted mr-2 font-bold">Self-reported EQ score</span>
@@ -319,15 +342,62 @@ function EqCardiacDashboard({ data, highlightSubject, setHighlightSubject, isAdm
       <div className="grid lg:grid-cols-2 gap-5">
         {data.analyses.map((a, i) => (
           <CardErrorBoundary key={a.metric_key}>
-            <EqMetricScatter analysis={a} highlightSubject={highlightSubject} delay={i * 90} />
+            <EqMetricScatter
+              analysis={a}
+              highlightSubject={highlightSubject}
+              delay={i * 90}
+              onExpand={() => setExpandedMetric(a.metric_key)}
+            />
           </CardErrorBoundary>
         ))}
+      </div>
+
+      {expandedAnalysis && (
+        <ExpandedScatterModal
+          analysis={expandedAnalysis}
+          highlightSubject={highlightSubject}
+          onClose={() => setExpandedMetric(null)}
+        />
+      )}
+    </div>
+  )
+}
+
+// Full-size version of a single EQ-vs-metric scatter, opened when a card
+// is clicked. Same data/computation as the small card (EqMetricScatter
+// with size="large") — just a lot more pixel room for each point, which is
+// what actually fixes hovering the correct dot in a dense cluster (e.g.
+// several subjects sitting within a couple EQ points of each other).
+function ExpandedScatterModal({ analysis, highlightSubject, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/40 backdrop-blur-sm" onClick={onClose}>
+      <div
+        className="card w-full max-w-3xl max-h-[90vh] overflow-y-auto p-0"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-5 py-4 border-b border-line/60 dark:border-dark-border sticky top-0 bg-surface dark:bg-dark-surface z-10">
+          <p className="font-display font-bold text-ink dark:text-dark-text">
+            EQ vs. {analysis?.metric_label || analysis?.metric_key}
+          </p>
+          <button onClick={onClose} className="p-1.5 rounded-md hover:bg-red-50 dark:hover:bg-dark-card text-ink/75 dark:text-dark-muted">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="p-5">
+          <EqMetricScatter analysis={analysis} highlightSubject={highlightSubject} size="large" bare />
+        </div>
       </div>
     </div>
   )
 }
 
-function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
+function EqMetricScatter({ analysis: a, highlightSubject, delay = 0, onExpand, size = 'small', bare = false }) {
   // Guard every field this component touches unconditionally (i.e. before
   // the insufficientForMetric branch even runs) — metric_label was being
   // read with `.toLowerCase()` and unit with `.trim()` assuming the API
@@ -341,11 +411,21 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
   const n = Number.isFinite(a?.n) ? a.n : 0
   const insufficientForMetric = n < 3 || a?.r == null
   const info = METRIC_INFO[a?.metric_key] || {}
-  const [hoveredId, setHoveredId] = useState(null)
+  // Recharts' built-in Tooltip resolves content by nearest X position along
+  // the shared axis, not by literal pixel distance to a dot — with several
+  // subjects sitting close together on the EQ axis (exactly the "S18 cluster"
+  // case), that nearest-axis-index lookup can resolve to a NEIGHBORING
+  // point instead of the one actually under the cursor, including on empty
+  // space between dots. Each dot's own onMouseEnter/onMouseLeave below is
+  // driven directly by that dot's element, so it's always exactly correct —
+  // storing the full point (not just an id) lets the Tooltip be rendered
+  // fully "controlled" off this state instead of off recharts' guess.
+  const [hoveredPoint, setHoveredPoint] = useState(null)
   const gradId = `pt-grad-${a?.metric_key ?? 'x'}`
   const lineGradId = `line-grad-${a?.metric_key ?? 'x'}`
+  const chartHeight = size === 'large' ? 480 : 260
 
-  const points = (a.points || []).map((p) => ({ ...p, isHighlighted: p.subject_id === highlightSubject }))
+  const points = (a.points || []).map((p) => ({ ...p, isHighlighted: sameSubject(p.subject_id, highlightSubject) }))
   // The best-fit line was previously drawn across the FULL 0-100 EQ-score
   // axis regardless of where the actual data points sit. With only a
   // handful of subjects clustered in a narrow EQ range, extrapolating the
@@ -462,13 +542,8 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
   if (xAxisMin > xAxisMax) { const t = xAxisMin; xAxisMin = xAxisMax; xAxisMax = t }
   if (xAxisMax - xAxisMin < 1) xAxisMax = xAxisMin + 1
 
-  return (
-    <Card
-      title={`EQ vs. ${metricLabel}`}
-      icon={HeartPulse}
-      delay={delay}
-      headerExtra={<MetricInfoButton metricLabel={metricLabel} info={info} />}
-    >
+  const chartBlock = (
+    <>
       <p className="text-xs text-ink/75 dark:text-dark-muted mb-3">
         Each point is one subject's self-reported EQ score against their {metricLabel.toLowerCase()}
         {unit ? ` (${unit.trim()})` : ''}, averaged across their recorded sessions. n = {n} subjects.
@@ -478,7 +553,8 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
         <InsufficientData>Not enough subjects with both values yet (n = {n}) for a meaningful correlation.</InsufficientData>
       ) : (
         <>
-          <ResponsiveContainer width="100%" height={240}>
+          <div style={{ position: 'relative' }}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
             <ComposedChart margin={{ top: 10, right: 16, bottom: 24, left: 4 }}>
               <defs>
                 <radialGradient id={gradId} cx="35%" cy="35%" r="65%">
@@ -509,19 +585,6 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
                 allowDataOverflow
                 label={{ value: `${metricLabel}${unit ? ` (${unit.trim()})` : ''}`, angle: -90, position: 'insideLeft', fontSize: 10 }}
               />
-              <Tooltip
-                cursor={{ strokeDasharray: '3 3', stroke: '#CF0A0A', strokeOpacity: 0.3 }}
-                content={({ payload }) => {
-                  const p = payload?.find((x) => x.dataKey === 'value')?.payload
-                  if (!p) return null
-                  return (
-                    <div className="bg-white dark:bg-dark-card border border-line dark:border-dark-border rounded-lg px-3 py-2 text-xs shadow-pop">
-                      <strong className={p.isHighlighted ? 'text-brand-red' : ''}>{formatSubjectId(p.subject_id)}</strong><br />
-                      EQ: {p.eq_score} · {metricLabel}: {p.value}
-                    </div>
-                  )
-                }}
-              />
               <Line
                 data={regressionLine} dataKey="fit" type="linear" stroke={`url(#${lineGradId})`} strokeWidth={3.5}
                 dot={false} activeDot={false} legendType="none"
@@ -536,14 +599,22 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
                 shape={(props) => {
                   const { cx, cy, payload } = props
                   const highlighted = payload.isHighlighted
-                  const hovered = hoveredId === payload.subject_id
+                  // Driven by THIS dot's own subject_id, set only by THIS
+                  // dot's own mouse handlers below — never by recharts'
+                  // axis-nearest guess, so it can't ever show a neighboring
+                  // subject's data for a dot that isn't actually hovered.
+                  const hovered = hoveredPoint?.subject_id === payload.subject_id
                   const r = highlighted ? (hovered ? 8 : 6.5) : (hovered ? 6 : 4.5)
                   return (
                     <g
-                      onMouseEnter={() => setHoveredId(payload.subject_id)}
-                      onMouseLeave={() => setHoveredId(null)}
+                      onMouseEnter={() => setHoveredPoint({ subject_id: payload.subject_id, cx, cy, payload })}
+                      onMouseLeave={() => setHoveredPoint(null)}
                       style={{ cursor: 'pointer', transition: 'r 0.15s ease' }}
                     >
+                      {/* Invisible larger hit-area so small/dense cards are
+                          still easy to hover accurately without changing
+                          the dot's visible size. */}
+                      <circle cx={cx} cy={cy} r={Math.max(r, 12)} fill="transparent" />
                       {highlighted && (
                         <circle cx={cx} cy={cy} r={r + 5} fill="#CF0A0A" fillOpacity={0.12} />
                       )}
@@ -561,6 +632,26 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
               />
             </ComposedChart>
           </ResponsiveContainer>
+
+          {hoveredPoint && (() => {
+            const flipBelow = hoveredPoint.cy < 60
+            return (
+              <div
+                className="pointer-events-none absolute z-10 bg-white dark:bg-dark-card border border-line dark:border-dark-border rounded-lg px-3 py-2 text-xs shadow-pop whitespace-nowrap"
+                style={{
+                  left: hoveredPoint.cx,
+                  top: hoveredPoint.cy + (flipBelow ? 14 : -12),
+                  transform: `translate(-50%, ${flipBelow ? '0' : '-100%'})`,
+                }}
+              >
+                <strong className={hoveredPoint.payload.isHighlighted ? 'text-brand-red' : ''}>
+                  {formatSubjectId(hoveredPoint.payload.subject_id)}
+                </strong><br />
+                EQ: {hoveredPoint.payload.eq_score} · {metricLabel}: {hoveredPoint.payload.value}
+              </div>
+            )
+          })()}
+          </div>
 
           <div className="flex items-center gap-4 flex-wrap text-[11px] text-ink/80 dark:text-dark-muted mt-1 mb-3">
             <span className="flex items-center gap-1.5">
@@ -592,6 +683,32 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
           </p>
         </>
       )}
+    </>
+  )
+
+  if (bare) return chartBlock
+
+  return (
+    <Card
+      title={`EQ vs. ${metricLabel}`}
+      icon={HeartPulse}
+      delay={delay}
+      headerExtra={(
+        <div className="flex items-center gap-1">
+          {onExpand && (
+            <button
+              onClick={onExpand}
+              title="View larger"
+              className="p-1 rounded-md text-ink/50 hover:text-brand-red hover:bg-red-50 dark:hover:bg-dark-card transition-colors"
+            >
+              <Maximize2 className="w-3.5 h-3.5" />
+            </button>
+          )}
+          <MetricInfoButton metricLabel={metricLabel} info={info} />
+        </div>
+      )}
+    >
+      {chartBlock}
     </Card>
   )
 }
@@ -731,7 +848,7 @@ function _metric(data, subjectId, key) {
   const a = data.analyses.find((x) => x.metric_key === key)
   if (!a) return null
   const numericPoints = (a.points || []).filter((p) => Number.isFinite(p.value))
-  const point = numericPoints.find((p) => p.subject_id === subjectId)
+  const point = numericPoints.find((p) => sameSubject(p.subject_id, subjectId))
   const mean = numericPoints.length ? numericPoints.reduce((s, p) => s + p.value, 0) / numericPoints.length : null
   return { ...a, point, mean, hasSignal: a.n >= 3 && a.r != null && Math.abs(a.r) >= 0.2 }
 }
@@ -762,14 +879,14 @@ function buildOverallConclusion(data, subjectId, subjectSummary) {
   const stress = _metric(data, subjectId, 'avg_stress_index')
   const recovery = _metric(data, subjectId, 'avg_recovery_rate')
   const restingHr = _metric(data, subjectId, 'avg_heart_rate')
-  const eqPoint = data.analyses[0]?.points?.find((p) => p.subject_id === subjectId)
+  const eqPoint = data.analyses[0]?.points?.find((p) => sameSubject(p.subject_id, subjectId))
 
   // --- per-metric favorable/unfavorable bullets (kept, now feeding the
   // "actionable insights" section below too instead of standing alone) ---
   const bullets = []
   for (const a of data.analyses) {
     const numericPoints = (a.points || []).filter((p) => Number.isFinite(p.value))
-    const point = numericPoints.find((p) => p.subject_id === subjectId)
+    const point = numericPoints.find((p) => sameSubject(p.subject_id, subjectId))
     if (!point || a.direction === 'neutral' || a.n < 3 || a.r == null || Math.abs(a.r) < 0.2 || !numericPoints.length) continue
     const mean = numericPoints.reduce((s, p) => s + p.value, 0) / numericPoints.length
     const aboveMean = point.value >= mean
