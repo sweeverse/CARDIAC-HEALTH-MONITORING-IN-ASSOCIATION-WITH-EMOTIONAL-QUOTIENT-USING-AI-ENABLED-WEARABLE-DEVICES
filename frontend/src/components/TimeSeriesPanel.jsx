@@ -39,6 +39,16 @@ const METRICS = [
     normalLabel: 'Positive values indicate recovering heart rate; near-zero is normal during rest',
     context: 'Recovery rate is most meaningful after run activity, where a fast decline signals strong cardiovascular fitness.',
   },
+  { key: 'spo2', label: 'SpO\u2082', unit: '%', color: '#2563A8',
+    normalMin: 95, normalMax: 100,
+    normalLabel: 'Normal range: 95–100% (below 90% is clinically significant)',
+    context: 'Blood oxygen saturation from the MAX30102 pulse oximeter — sustained dips during exertion can flag respiratory or circulatory strain.',
+  },
+  { key: 'skin_temp_c', label: 'Temperature', unit: '\u00b0C', color: '#8A5FBF',
+    normalMin: 33, normalMax: 37,
+    normalLabel: 'Healthy peripheral skin range: 33–37\u00b0C',
+    context: 'Skin surface temperature from the DS18B20 probe — cooler and more variable than core body temperature, shifting with blood flow, exertion, and ambient conditions.',
+  },
 ]
 
 const ACTIVITIES = ['sit', 'walk', 'run', 'cog']

@@ -312,6 +312,18 @@ export default function PopulationPanel({ subjectId }) {
               <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-[#CF0A0A] ring-2 ring-ink/80" /> Outlier (moderate risk)</span>
               <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-ink/70 dark:bg-white/70 ring-2 ring-ink/80" /> This subject</span>
             </div>
+            {data.cohort_comparison && (
+              <p className="text-[11px] text-ink/80 dark:text-dark-muted mt-2">
+                Risk score <strong className="text-ink/75 dark:text-dark-text">{data.cohort_comparison.subject_risk_score}</strong> vs.
+                {' '}cohort average <strong className="text-ink/75 dark:text-dark-text">{data.cohort_comparison.cohort_avg_risk_score}</strong>
+                {' '}— <span className={
+                  data.cohort_comparison.classification === 'better than cohort' ? 'text-[#2F8F5B] font-semibold' :
+                  data.cohort_comparison.classification === 'worse than cohort' ? 'text-brand-red font-semibold' :
+                  'font-semibold text-ink/80 dark:text-dark-text'
+                }>{data.cohort_comparison.classification}</span>
+                {' '}({data.cohort_comparison.difference_from_cohort > 0 ? '+' : ''}{data.cohort_comparison.difference_from_cohort} pts)
+              </p>
+            )}
             {thisSubject && (
               <p className="text-[11px] text-ink/80 dark:text-dark-muted mt-2">
                 This subject ranks <strong className="text-ink/75 dark:text-dark-text">{thisSubject.rank} of {ranked.length}</strong> in

@@ -76,6 +76,25 @@ export default function SubjectDashboard() {
         <ArrowLeft className="w-3.5 h-3.5" /> Cohort overview
       </Link>
 
+      {subject.eq_score != null ? (
+        <div className="rounded-xl p-5 mb-6 flex items-center justify-between gap-4 flex-wrap" style={{ background: '#CF0A0A' }}>
+          <div>
+            <p className="text-xs uppercase tracking-wide text-white/75 font-semibold">EQ Score</p>
+            <p className="font-display font-bold text-white mt-0.5 leading-none">
+              <span className="text-4xl">{subject.eq_score}</span>
+              <span className="text-lg font-normal text-white/70">/100</span>
+            </p>
+          </div>
+          <p className="text-xs text-white/80 max-w-xs sm:text-right">
+            Self-reported emotional intelligence baseline from this subject's EQ questionnaire.
+          </p>
+        </div>
+      ) : (
+        <div className="rounded-xl p-4 mb-6 border border-dashed border-line dark:border-dark-border text-xs text-ink/60 dark:text-dark-muted">
+          No EQ score yet — this subject hasn't completed the EQ questionnaire.
+        </div>
+      )}
+
       <div className="card p-6 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex items-center gap-5">
@@ -92,7 +111,7 @@ export default function SubjectDashboard() {
           <div className="flex items-center gap-6">
             <Demo label="Age" value={subject.demographics?.age ? Math.round(subject.demographics.age) : '—'} />
             <Demo label="BMI" value={subject.demographics?.bmi?.toFixed?.(1) ?? '—'} />
-            <Demo label="Composure proxy" value={subject.composure_index_proxy ?? '—'} hint="Derived, not measured EQ" />
+            <Demo label="Composure proxy" value={subject.composure_index_proxy ?? '—'}  />
             {subject.cognitive_load_index?.cognitive_load_index != null && (
               <Demo
                 label="Cognitive load"

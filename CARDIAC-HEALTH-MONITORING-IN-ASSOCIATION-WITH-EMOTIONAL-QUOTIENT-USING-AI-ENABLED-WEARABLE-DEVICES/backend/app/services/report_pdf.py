@@ -44,38 +44,14 @@ def _breakdown_chart(breakdown: list[dict]) -> Image | None:
     return Image(buf, width=6.4 * inch, height=(max(1.6, 0.4 * len(features))) * inch)
 
 
-def _contributions_chart(contributions: list[dict]) -> Image | None:
-    """Horizontal bar chart of each biomarker's contribution to the ML Risk Score."""
-    if not contributions:
-        return None
-    features = [c["feature"] for c in contributions][::-1]
-    values = [c["shap_value"] for c in contributions][::-1]
-    bar_colors = ["#CF0A0A" if v > 0 else "#2F8F5B" for v in values]
-
-    fig, ax = plt.subplots(figsize=(6.4, max(1.6, 0.4 * len(features))), dpi=150)
-    ax.barh(features, values, color=bar_colors)
-    ax.axvline(0, color="#888", linewidth=0.8)
-    ax.set_xlabel("Contribution to ML Risk Score", fontsize=9)
-    ax.tick_params(labelsize=9)
-    for spine in ("top", "right"):
-        ax.spines[spine].set_visible(False)
-    fig.tight_layout()
-
-    buf = io.BytesIO()
-    fig.savefig(buf, format="png")
-    plt.close(fig)
-    buf.seek(0)
-    return Image(buf, width=6.4 * inch, height=(max(1.6, 0.4 * len(features))) * inch)
-
-
 def _sessions_chart(sessions: list[dict]) -> Image | None:
-    """ML Risk Score across recorded sessions, colored by activity."""
-    scored = [s for s in sessions if s.get("avg_risk_score") is not None]
+    """Heart Health Score across recorded sessions, colored by activity."""
+    scored = [s for s in sessions if s.get("avg_heart_health_score") is not None]
     if len(scored) < 2:
         return None
     activity_colors = {"sit": "#0E4F4A", "walk": "#DC5F00", "run": "#CF0A0A", "cog": "#C98A2E"}
     labels = [s.get("activity", "?") for s in scored]
-    values = [s["avg_risk_score"] for s in scored]
+    values = [s["avg_heart_health_score"] for s in scored]
     point_colors = [activity_colors.get(a, "#CF0A0A") for a in labels]
 
     fig, ax = plt.subplots(figsize=(6.4, 2.4), dpi=150)
@@ -83,7 +59,7 @@ def _sessions_chart(sessions: list[dict]) -> Image | None:
     ax.scatter(range(len(values)), values, c=point_colors, s=40, zorder=2, edgecolors="white", linewidths=1)
     ax.set_xticks(range(len(labels)))
     ax.set_xticklabels(labels, fontsize=8, rotation=0)
-    ax.set_ylabel("ML Risk Score", fontsize=9)
+    ax.set_ylabel("Heart Health Score", fontsize=9)
     ax.set_ylim(0, 100)
     ax.tick_params(labelsize=9)
     for spine in ("top", "right"):
@@ -116,10 +92,10 @@ def build_report_pdf(subject: dict, sessions: list[dict], insights: list[dict]) 
     risk = subject.get("risk_assessment", {})
     demo = subject.get("demographics", {})
     summary_data = [
-        ["ML Risk Score", f"{risk.get('risk_score', '—')}/100" if risk.get("risk_score") is not None else "—"],
-        ["Risk Category", risk.get("predicted_class", "—")],
-        ["Classification Confidence", f"{(risk.get('probability') or 0) * 100:.0f}%"],
         ["Heart Health Score", f"{subject.get('heart_health_score', '—')}/100"],
+        ["Predicted Risk Class", risk.get("predicted_class", "—")],
+        ["Model Risk Score", f"{risk.get('risk_score', '—')}/100" if risk.get("risk_score") is not None else "—"],
+        ["Classification Confidence", f"{(risk.get('probability') or 0) * 100:.0f}%"],
         ["Age", demo.get("age", "—")],
         ["BMI", demo.get("bmi", "—")],
     ]
@@ -145,29 +121,7 @@ def build_report_pdf(subject: dict, sessions: list[dict], insights: list[dict]) 
         story.append(Paragraph("No dominant drivers — biomarkers sit close to the cohort average.", body))
     story.append(Spacer(1, 0.2 * inch))
 
-    story.append(Paragraph("Top Feature Contributions (Risk Score)", h2))
-    contributions = risk.get("feature_contributions", [])[:6]
-    if contributions:
-        rows = [["Feature", "Value", "Risk Contribution"]]
-        for c in contributions:
-            val_str = f"{c['value']:.2f}" if c.get("value") is not None else "n/a"
-            rows.append([c["feature"], val_str, f"{c['shap_value']:+.4f}"])
-        ct = Table(rows, colWidths=[2 * inch, 2 * inch, 2 * inch])
-        ct.setStyle(TableStyle([
-            ("BACKGROUND", (0, 0), (-1, 0), ACCENT),
-            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-            ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#DDD8CC")),
-            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, LIGHT_BG]),
-        ]))
-        story.append(ct)
-        contributions_chart = _contributions_chart(contributions)
-        if contributions_chart:
-            story.append(Spacer(1, 0.12 * inch))
-            story.append(contributions_chart)
-    story.append(Spacer(1, 0.2 * inch))
-
-    story.append(Paragraph("Heart Health Score Breakdown (reference)", h2))
+    story.append(Paragraph("Heart Health Score Breakdown (Explainable AI)", h2))
     breakdown = subject.get("heart_health_score_breakdown", [])
     if breakdown:
         rows = [["Biomarker", "Value", "Healthy Range", "Points", "Impact"]]
@@ -188,6 +142,24 @@ def build_report_pdf(subject: dict, sessions: list[dict], insights: list[dict]) 
         if chart:
             story.append(Spacer(1, 0.12 * inch))
             story.append(chart)
+    story.append(Spacer(1, 0.2 * inch))
+
+    story.append(Paragraph("Top Feature Contributions", h2))
+    contributions = risk.get("feature_contributions", [])[:6]
+    if contributions:
+        rows = [["Feature", "Value", "Risk Contribution"]]
+        for c in contributions:
+            val_str = f"{c['value']:.2f}" if c.get("value") is not None else "n/a"
+            rows.append([c["feature"], val_str, f"{c['shap_value']:+.4f}"])
+        ct = Table(rows, colWidths=[2 * inch, 2 * inch, 2 * inch])
+        ct.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), ACCENT),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+            ("GRID", (0, 0), (-1, -1), 0.5, colors.HexColor("#DDD8CC")),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, LIGHT_BG]),
+        ]))
+        story.append(ct)
     story.append(Spacer(1, 0.2 * inch))
 
     story.append(Paragraph("Sessions Recorded", h2))

@@ -43,6 +43,6 @@ EMAIL_SUBJECT_MAP: dict[str, str] = {
     "shrutidas458@gmail.com": "S01",
     "mukherjeetuneer@gmail.com": "S15",
     "kirtikadharaiml@gmail.com": "S10",
-    "sweekritibiswas@gmail.com": "S03",
-    "eshaa.exe@gmail.com": "S02",
+    "sweekritibiswas@gmail.com": "S02",
+    "eshaa.exe@gmail.com": "S03",
 }

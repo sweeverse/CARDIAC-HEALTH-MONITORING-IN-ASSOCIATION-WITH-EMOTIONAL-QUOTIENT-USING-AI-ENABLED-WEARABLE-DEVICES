@@ -15,6 +15,43 @@ const FEATURE_LABELS = {
 }
 const ACTIVITY_LABELS = { sit: 'Sit', walk: 'Walk', run: 'Run', cog: 'Cognitive Task' }
 
+// Per-metric glossary shown in each scatter card's hover tooltip. Keyed by
+// CARDIAC_METRICS' key (routers/research.py) so this never drifts out of
+// sync with the metric the backend is actually describing. Definition and
+// clinical significance are rendered as two visually separated paragraphs
+// in the tooltip (see EqMetricScatter) rather than crammed inline, so
+// they're easy to scan at a glance.
+const METRIC_INFO = {
+  risk_score: {
+    definition: 'This subject\u2019s overall score from the unsupervised GMM + Isolation Forest pipeline \u2014 a blend of how unusual their biosignal pattern is against the fitted cohort model.',
+    clinical_significance: 'Lower is better. It\u2019s an anomaly-detection signal, not a diagnosis \u2014 useful for flagging sessions worth a closer look, not for ruling conditions in or out.',
+  },
+  composure_index_proxy: {
+    definition: 'A derived proxy for emotional composure, built from HRV and stress-index patterns \u2014 not a direct measurement of EQ or emotional state.',
+    clinical_significance: 'Higher suggests calmer autonomic regulation during recorded sessions. Treat it as a physiological proxy, not a validated psychological instrument.',
+  },
+  cognitive_load_index: {
+    definition: 'An index of physiological strain recorded during the cognitive-task activity, derived from heart rate and HRV shifts relative to this subject\u2019s other sessions.',
+    clinical_significance: 'Lower values suggest the task demanded less autonomic effort. Elevated values can reflect mental workload, stress, or both.',
+  },
+  avg_rmssd: {
+    definition: 'Root Mean Square of Successive Differences \u2014 a heart rate variability measure reflecting parasympathetic ("rest and digest") activity, averaged across this subject\u2019s recorded sessions.',
+    clinical_significance: 'Higher RMSSD generally reflects better autonomic recovery and lower physiological stress. Healthy resting range is roughly 20\u201350 ms.',
+  },
+  avg_stress_index: {
+    definition: 'A composite stress score derived from HRV and heart-rate dynamics, averaged across this subject\u2019s recorded sessions.',
+    clinical_significance: 'Lower values at rest indicate less sympathetic ("fight-or-flight") activation. Normal resting range is roughly 20\u201340.',
+  },
+  avg_recovery_rate: {
+    definition: 'How quickly heart rate declines following exertion, averaged across this subject\u2019s recorded sessions.',
+    clinical_significance: 'A faster decline (higher value) after activity is a marker of stronger cardiovascular fitness; near-zero is expected at rest.',
+  },
+  avg_heart_rate: {
+    definition: 'This subject\u2019s average heart rate across recorded sessions, in beats per minute.',
+    clinical_significance: 'Normal resting heart rate for adults is roughly 60\u2013100 bpm; context (activity, fitness, medication) matters more than the raw number alone.',
+  },
+}
+
 export default function Research() {
   const { user } = useAuth()
   const isAdmin = user?.role === 'admin'
@@ -139,12 +176,18 @@ export default function Research() {
   )
 }
 
-function Card({ title, icon: Icon, children, delay = 0 }) {
+// `headerExtra` renders at the right edge of the header row (used by
+// EqMetricScatter to place its "About this metric" info icon without every
+// card needing to reimplement the header layout).
+function Card({ title, icon: Icon, headerExtra, children, delay = 0 }) {
   return (
     <div className="card p-5 chart-card-enter" style={{ animationDelay: `${delay}ms` }}>
-      <div className="flex items-center gap-2 mb-4">
-        {Icon && <Icon className="w-4 h-4 text-brand-red" />}
-        <h3 className="font-display font-semibold text-base dark:text-dark-text">{title}</h3>
+      <div className="flex items-center justify-between gap-2 mb-4">
+        <div className="flex items-center gap-2">
+          {Icon && <Icon className="w-4 h-4 text-brand-red" />}
+          <h3 className="font-display font-semibold text-base dark:text-dark-text">{title}</h3>
+        </div>
+        {headerExtra}
       </div>
       {children}
     </div>
@@ -182,6 +225,39 @@ function InsufficientData({ children }) {
     <div className="flex items-start gap-2 text-sm text-ink/60 dark:text-dark-muted bg-paper dark:bg-dark-surface border border-line dark:border-dark-border rounded-lg p-3">
       <Info className="w-4 h-4 mt-0.5 shrink-0 text-warning" />
       <span>{children}</span>
+    </div>
+  )
+}
+
+// Reusable hover-info button + panel. Definition and clinical significance
+// each get their own heading + paragraph, separated by a divider, instead
+// of being run together — meant to be scannable in a couple seconds rather
+// than read like a wall of text.
+function MetricInfoButton({ metricLabel, info }) {
+  if (!info?.definition && !info?.clinical_significance) return null
+  return (
+    <div className="group relative shrink-0">
+      <button
+        type="button"
+        className="text-ink/40 dark:text-dark-muted hover:text-brand-red transition-colors"
+        aria-label={`About ${metricLabel}`}
+      >
+        <Info className="w-4 h-4" />
+      </button>
+      <div className="invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity absolute right-0 top-6 z-20 w-80 bg-white dark:bg-dark-card border border-line dark:border-dark-border rounded-lg p-4 text-xs shadow-pop divide-y divide-line/60 dark:divide-dark-border">
+        {info.definition && (
+          <div className="pb-3">
+            <p className="text-[10px] font-bold uppercase tracking-wide text-ink/45 dark:text-dark-muted mb-1.5">Definition</p>
+            <p className="text-[13px] text-ink/75 dark:text-dark-muted leading-relaxed">{info.definition}</p>
+          </div>
+        )}
+        {info.clinical_significance && (
+          <div className={info.definition ? 'pt-3' : ''}>
+            <p className="text-[10px] font-bold uppercase tracking-wide text-ink/45 dark:text-dark-muted mb-1.5">Clinical significance</p>
+            <p className="text-[13px] text-ink/75 dark:text-dark-muted leading-relaxed">{info.clinical_significance}</p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -229,6 +305,17 @@ function EqCardiacDashboard({ data, highlightSubject, setHighlightSubject, isAdm
         ) : null}
       </div>
 
+      {highlightSubject && (() => {
+        const eqPoint = data.analyses[0]?.points?.find((p) => p.subject_id === highlightSubject)
+        return eqPoint ? (
+          <div className="card p-5 flex items-baseline gap-2">
+            <span className="text-xs uppercase tracking-wide text-ink/60 dark:text-dark-muted mr-2 font-bold">Self-reported EQ score</span>
+            <span className="text-xl font-display font-bold text-brand-red">{eqPoint.eq_score}</span>
+            <span className="text-sm text-ink/60 dark:text-dark-muted font-bold">/ 100</span>
+          </div>
+        ) : null
+      })()}
+
       <div className="grid lg:grid-cols-2 gap-5">
         {data.analyses.map((a, i) => (
           <CardErrorBoundary key={a.metric_key}>
@@ -253,6 +340,7 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
   const unit = typeof a?.unit === 'string' ? a.unit : ''
   const n = Number.isFinite(a?.n) ? a.n : 0
   const insufficientForMetric = n < 3 || a?.r == null
+  const info = METRIC_INFO[a?.metric_key] || {}
   const [hoveredId, setHoveredId] = useState(null)
   const gradId = `pt-grad-${a?.metric_key ?? 'x'}`
   const lineGradId = `line-grad-${a?.metric_key ?? 'x'}`
@@ -375,7 +463,12 @@ function EqMetricScatter({ analysis: a, highlightSubject, delay = 0 }) {
   if (xAxisMax - xAxisMin < 1) xAxisMax = xAxisMin + 1
 
   return (
-    <Card title={`EQ vs. ${metricLabel}`} icon={HeartPulse} delay={delay}>
+    <Card
+      title={`EQ vs. ${metricLabel}`}
+      icon={HeartPulse}
+      delay={delay}
+      headerExtra={<MetricInfoButton metricLabel={metricLabel} info={info} />}
+    >
       <p className="text-xs text-ink/75 dark:text-dark-muted mb-3">
         Each point is one subject's self-reported EQ score against their {metricLabel.toLowerCase()}
         {unit ? ` (${unit.trim()})` : ''}, averaged across their recorded sessions. n = {n} subjects.
@@ -555,6 +648,14 @@ function CorrelationMatrix({ matrix }) {
 // Subject login: this is always about them, no picking required. Admin
 // login: it re-derives automatically every time the dropdown selection
 // changes, since it's computed straight from highlightSubject + live data.
+//
+// Each narrative section is exactly two paragraphs: (1) general definition
+// of the metric(s) + the cohort-wide relationship to EQ (r, p-value,
+// direction, physiological "why" folded in), (2) this subject's own score,
+// how it compares to the cohort mean, and — where 2+ metrics feed one
+// section (HRV/Stress, Composure/Cognitive Load) — how those personal
+// scores relate to each other. `sec.body` can be a string (legacy) or an
+// array of paragraphs; the renderer below handles both.
 function OverallConclusion({ data, highlightSubject, subjectSummary, isAdmin }) {
   const conclusion = useMemo(() => buildOverallConclusion(data, highlightSubject, subjectSummary), [data, highlightSubject, subjectSummary])
 
@@ -577,8 +678,12 @@ function OverallConclusion({ data, highlightSubject, subjectSummary, isAdmin }) 
 
           {conclusion.sections.map((sec, i) => (
             <div key={i} className="border-t border-line/60 dark:border-dark-border pt-4 first:border-t-0 first:pt-0">
-              <p className="text-xs font-bold uppercase tracking-wide text-brand-red mb-1.5">{sec.heading}</p>
-              <p className="text-sm text-ink/70 dark:text-dark-muted leading-relaxed">{sec.body}</p>
+              <p className="text-xs font-bold uppercase tracking-wide text-brand-red mb-2">{sec.heading}</p>
+              <div className="space-y-2.5">
+                {(Array.isArray(sec.body) ? sec.body : [sec.body]).filter(Boolean).map((para, j) => (
+                  <p key={j} className="text-sm text-ink/70 dark:text-dark-muted leading-relaxed">{para}</p>
+                ))}
+              </div>
             </div>
           ))}
 
@@ -611,7 +716,6 @@ function OverallConclusion({ data, highlightSubject, subjectSummary, isAdmin }) 
           )}
 
           <p className="text-[10px] text-ink/60 dark:text-dark-muted italic pt-2 border-t border-line/60 dark:border-dark-border">
-            Research-grade analytics derived from cohort correlations, not a diagnostic medical assessment.
           </p>
         </div>
       )}
@@ -638,10 +742,20 @@ function _relationStrength(r) {
   return abs < 0.2 ? 'negligible' : abs < 0.5 ? 'moderate' : 'strong'
 }
 
+// Whether THIS subject's own value sits on the healthy side of the cohort
+// average, per the metric's declared direction (higher_better/lower_better).
+// null when there isn't enough to call it either way.
+function _favorable(metric) {
+  if (!metric || metric.point == null || metric.mean == null) return null
+  const aboveMean = metric.point.value >= metric.mean
+  if (metric.direction === 'higher_better') return aboveMean
+  if (metric.direction === 'lower_better') return !aboveMean
+  return null
+}
+
 function buildOverallConclusion(data, subjectId, subjectSummary) {
   if (!data || data.insufficient_data || !subjectId) return null
 
-  const riskMetric = _metric(data, subjectId, 'risk_score')
   const composure = _metric(data, subjectId, 'composure_index_proxy')
   const cogLoad = _metric(data, subjectId, 'cognitive_load_index')
   const hrv = _metric(data, subjectId, 'avg_rmssd')
@@ -683,77 +797,117 @@ function buildOverallConclusion(data, subjectId, subjectSummary) {
   } else {
     const ratio = nFav / nTotal
     const overall = ratio >= 0.66 ? 'a broadly favorable' : ratio <= 0.34 ? 'a mixed-to-concerning' : 'a mixed'
-    summary = `${formatSubjectId(subjectId)}${eqPoint ? ` (self-reported EQ score ${eqPoint.eq_score})` : ''} shows ${overall} cardiovascular and physiological profile: ${nFav} of ${nTotal} tracked metric${nTotal === 1 ? '' : 's'} with a meaningful EQ relationship ${nFav === 1 && nTotal === 1 ? 'sits' : 'sit'} on the healthy side of the cohort average.${scoreLine}`
+    summary = `${formatSubjectId(subjectId)}${eqPoint ? ` (self-reported EQ score ${eqPoint.eq_score})` : ''} shows ${overall} cardiovascular and physiological profile: ${nFav} of ${nTotal} tracked metric${nTotal === 1 ? '' : 's'} with a meaningful EQ relationship ${nFav === 1 && nTotal === 1 ? 'sits' : 'sit'} on the healthy side of the cohort average.${scoreLine} The sections below break down exactly how their EQ score relates to each marker, and what that relationship means for them specifically.`
   }
 
   // --- narrative sections: EQ <-> HR, EQ <-> HRV/Stress, Composure &
-  // Cognitive Load, and a rolled-up health summary ---
+  // Cognitive Load, and Recovery. Each is exactly TWO paragraphs:
+  // [1] general definition + cohort-level relationship (with the
+  //     physiological "why" folded in, not a separate 3rd paragraph),
+  // [2] personalized score, comparison to cohort mean, and — where the
+  //     section covers 2+ metrics — how those personal scores relate to
+  //     each other. ---
   const sections = []
 
   if (restingHr) {
     const strength = _relationStrength(restingHr.r)
-    const cohortLine = restingHr.hasSignal
+    const cohortPara = restingHr.hasSignal
       ? `Across the cohort, self-reported EQ shows a ${strength} ${restingHr.r > 0 ? 'positive' : 'negative'} relationship with resting heart rate (r = ${restingHr.r}${restingHr.p_value != null ? `, p = ${restingHr.p_value}` : ''}) — ${
           restingHr.r < 0
-            ? 'people who rate their own emotional regulation higher tend to run a lower resting heart rate, consistent with better parasympathetic (vagal) control dampening baseline sympathetic drive.'
-            : 'people who rate their own emotional regulation higher tend to run a higher resting heart rate in this sample, which runs counter to the usual autonomic story and is worth treating as a cohort-specific observation rather than a general rule given the small sample.'
+            ? 'subjects who rate their own emotional regulation higher tend to run a lower resting heart rate, consistent with better parasympathetic (vagal) control dampening baseline sympathetic drive.'
+            : 'subjects who rate their own emotional regulation higher tend to run a higher resting heart rate in this sample, which runs counter to the usual autonomic story and is worth treating as a cohort-specific observation given the small sample.'
         }`
       : `Across the cohort, the EQ-to-resting-heart-rate relationship is too weak or too sparse (n = ${restingHr.n}) to draw a directional conclusion yet.`
-    const subjLine = restingHr.point
-      ? ` ${formatSubjectId(subjectId)}'s own resting heart rate averages ${restingHr.point.value} bpm, ${restingHr.point.value >= restingHr.mean ? 'above' : 'below'} the cohort mean of ${safeFixed(restingHr.mean)} bpm.`
-      : ''
+    const fav = _favorable(restingHr)
+    const personalPara = restingHr.point == null
+      ? `No resting heart rate data is on file for ${formatSubjectId(subjectId)} yet.`
+      : `For ${formatSubjectId(subjectId)}: resting heart rate averages ${restingHr.point.value} bpm, ${restingHr.point.value >= restingHr.mean ? 'above' : 'below'} the cohort mean of ${safeFixed(restingHr.mean)} bpm — ${
+          fav === null ? 'not enough signal yet to call this favorable or unfavorable' : fav ? 'sitting on the healthier side, a sign of good baseline cardiovascular efficiency' : 'sitting on the less favorable side, pointing to a higher baseline sympathetic load worth keeping an eye on'
+        }.`
     sections.push({
       heading: 'How EQ and Heart Rate influence each other',
-      body: `${cohortLine}${subjLine} The relationship also runs the other way biologically: elevated heart rate during a stress or cognitive-load episode reflects heightened sympathetic arousal, which is exactly the physiological state that lower emotional-regulation ability struggles to bring back down quickly — so EQ and HR aren't just correlated, they sit on the same feedback loop (arousal drives HR up, and how efficiently that arousal is regulated is what EQ is trying to measure).`,
+      body: [
+        `${cohortPara} Physiologically, elevated heart rate during a stress or cognitive-load episode reflects heightened sympathetic arousal — the same arousal that lower emotional-regulation ability struggles to bring back down quickly, so EQ and HR sit on the same feedback loop rather than being merely correlated.`,
+        personalPara,
+      ],
     })
   }
 
   if (hrv || stress) {
     const hrvStrength = hrv ? _relationStrength(hrv.r) : 'undetermined'
     const stressStrength = stress ? _relationStrength(stress.r) : 'undetermined'
-    const hrvLine = hrv
-      ? (hrv.hasSignal
-          ? `HRV (RMSSD) shows a ${hrvStrength} ${hrv.r > 0 ? 'positive' : 'negative'} correlation with EQ (r = ${hrv.r}) — ${hrv.r > 0 ? 'higher self-reported EQ tracks with higher heart-rate variability, i.e. a more flexible, better-regulated autonomic nervous system' : 'higher self-reported EQ tracks with lower heart-rate variability in this sample, an unusual pattern worth revisiting as more subjects are added'}.`
-          : `HRV (RMSSD) doesn't yet show a clear relationship with EQ in this sample (n = ${hrv.n}).`)
-      : ''
-    const stressLine = stress
-      ? (stress.hasSignal
-          ? ` Stress Index shows a ${stressStrength} ${stress.r > 0 ? 'positive' : 'negative'} correlation with EQ (r = ${stress.r}) — ${stress.r < 0 ? 'higher EQ tends to go with a lower physiological stress index, matching the intuition that better emotional regulation shows up as less sustained sympathetic load' : 'higher EQ tends to go with a higher physiological stress index in this sample, which may reflect subjects who self-rate their EQ highly while still carrying measurable physiological strain'}.`
-          : ` Stress Index doesn't yet show a clear relationship with EQ in this sample (n = ${stress.n}).`)
-      : ''
-    const subjLine = [
-      hrv?.point ? `${formatSubjectId(subjectId)}'s HRV averages ${hrv.point.value} ms (cohort mean ${safeFixed(hrv.mean)} ms).` : '',
-      stress?.point ? `Stress Index averages ${stress.point.value} (cohort mean ${safeFixed(stress.mean)}).` : '',
-    ].filter(Boolean).join(' ')
+    const cohortParts = []
+    if (hrv) {
+      cohortParts.push(hrv.hasSignal
+        ? `HRV (RMSSD) shows a ${hrvStrength} ${hrv.r > 0 ? 'positive' : 'negative'} correlation with EQ (r = ${hrv.r}) — ${hrv.r > 0 ? 'higher self-reported EQ tracks with higher heart-rate variability, i.e. a more flexible, better-regulated autonomic nervous system' : 'higher self-reported EQ tracks with lower heart-rate variability in this sample, an unusual pattern worth revisiting as more subjects are added'}.`
+        : `HRV (RMSSD) doesn't yet show a clear relationship with EQ in this sample (n = ${hrv.n}).`)
+    }
+    if (stress) {
+      cohortParts.push(stress.hasSignal
+        ? `Stress Index shows a ${stressStrength} ${stress.r > 0 ? 'positive' : 'negative'} correlation with EQ (r = ${stress.r}) — ${stress.r < 0 ? 'higher EQ tends to go with a lower physiological stress index, matching the intuition that better emotional regulation shows up as less sustained sympathetic load' : 'higher EQ tends to go with a higher physiological stress index in this sample, which may reflect subjects who self-rate their EQ highly while still carrying measurable physiological strain'}.`
+        : `Stress Index doesn't yet show a clear relationship with EQ in this sample (n = ${stress.n}).`)
+    }
+    const hrvFav = _favorable(hrv)
+    const stressFav = _favorable(stress)
+    const personalParts = []
+    if (hrv?.point != null) {
+      personalParts.push(`${formatSubjectId(subjectId)}'s HRV averages ${hrv.point.value} ms (cohort mean ${safeFixed(hrv.mean)} ms) — ${hrvFav ? 'above average, a good sign of a flexible, well-regulated nervous system' : 'below average, meaning less autonomic flexibility than most, worth keeping an eye on'}.`)
+    }
+    if (stress?.point != null) {
+      personalParts.push(`Their Stress Index averages ${stress.point.value} (cohort mean ${safeFixed(stress.mean)}) — ${stressFav ? 'on the favorable side, suggesting lower sustained physiological strain' : 'on the unfavorable side, suggesting elevated sustained physiological strain'}.`)
+    }
+    if (hrv?.point != null && stress?.point != null) {
+      personalParts.push(
+        hrvFav && stressFav
+          ? 'Both markers agree — high HRV and low stress load reinforce each other, a coherent picture of good autonomic balance.'
+          : !hrvFav && !stressFav
+            ? 'Both markers landing unfavorable at once is the combination most worth addressing.'
+            : `The two pull in different directions here — ${hrvFav ? 'HRV looks strong but Stress Index doesn\'t back it up' : 'Stress Index looks fine but HRV doesn\'t back it up'}, so treat this subject's autonomic picture as mixed rather than settled either way.`
+      )
+    }
     sections.push({
       heading: 'EQ, HRV, and Stress Index',
-      body: `${hrvLine}${stressLine} ${subjLine} HRV and Stress Index are effectively two views of the same autonomic balance: RMSSD captures short-term parasympathetic ("rest and digest") tone, while Stress Index leans toward sympathetic ("fight or flight") dominance — a subject who's high on one and low on the other is generally regulating well, while both sitting on the unfavorable side at once is the pattern most worth a closer look.`,
+      body: [
+        `${cohortParts.join(' ')} HRV and Stress Index are effectively two views of the same autonomic balance: RMSSD captures short-term parasympathetic ("rest and digest") tone, while Stress Index leans toward sympathetic ("fight or flight") dominance.`,
+        personalParts.join(' ') || `Not enough data yet to assess ${formatSubjectId(subjectId)}'s HRV/Stress balance.`,
+      ],
     })
   }
 
   if (composure || cogLoad) {
-    const composureLine = composure
-      ? `Composure Proxy is a derived measure of how stable a subject's physiological signals stay under load — it combines heart-rate stability, HRV, and stress-index behavior into one score, where higher means the subject's body stayed calmer and more controlled across the sit/walk/run/cognitive-task sequence. ${
-          composure.point != null
-            ? `${formatSubjectId(subjectId)} scores ${composure.point.value}/100 here, ${composure.point.value >= composure.mean ? 'above' : 'below'} the cohort average of ${safeFixed(composure.mean)}${composure.hasSignal ? `, and this measure correlates ${_relationStrength(composure.r)}ly with self-reported EQ (r = ${composure.r})` : ''}.`
-            : 'No Composure Proxy value is on file for this subject yet.'
-        }`
-      : ''
-    const cogLine = cogLoad
-      ? ` Cognitive Load Index reflects how much additional physiological strain the cognitive task session added relative to rest — lower is better, since it means the subject's system absorbed the mental workload without a large stress spike. ${
-          cogLoad.point != null
-            ? `${formatSubjectId(subjectId)} scores ${cogLoad.point.value}, ${cogLoad.point.value <= cogLoad.mean ? 'below (better than)' : 'above'} the cohort average of ${safeFixed(cogLoad.mean)}.`
-            : 'No Cognitive Load Index value is on file for this subject yet.'
-        }`
-      : ''
-    sections.push({ heading: 'Composure Proxy & Cognitive Load Index, explained', body: `${composureLine}${cogLine}` })
+    const composureFav = _favorable(composure)
+    const cogFav = _favorable(cogLoad)
+    const cohortParts = []
+    if (composure) cohortParts.push(`Composure Proxy combines heart-rate stability, HRV, and stress-index behavior into one score of how calm a subject's body stays under load${composure.hasSignal ? `, and it correlates ${_relationStrength(composure.r)}ly with self-reported EQ (r = ${composure.r})` : ''}.`)
+    if (cogLoad) cohortParts.push(`Cognitive Load Index reflects how much extra physiological strain a cognitive task adds relative to rest — lower is better${cogLoad.hasSignal ? `, and it correlates ${_relationStrength(cogLoad.r)}ly with EQ (r = ${cogLoad.r})` : ''}.`)
+    const personalParts = []
+    if (composure?.point != null) personalParts.push(`${formatSubjectId(subjectId)} scores ${composure.point.value}/100 on Composure Proxy, ${composureFav ? 'above the cohort average — their body stays calm and controlled under load, a strong positive sign' : 'below the cohort average — their physiology is less stable under load than most, worth working on'}.`)
+    if (cogLoad?.point != null) personalParts.push(`Their Cognitive Load Index is ${cogLoad.point.value}, ${cogFav ? 'below the cohort average — the body absorbs mental workload without a large stress spike, which is favorable' : 'above the cohort average — mental workload triggers a stronger physiological reaction than most, worth addressing'}.`)
+    if (composure?.point != null && cogLoad?.point != null) {
+      personalParts.push(
+        composureFav && cogFav
+          ? 'Consistent story: this subject stays composed generally, and that holds up specifically under cognitive strain too.'
+          : !composureFav && !cogFav
+            ? 'Consistent story: general composure is a weak spot, and it shows up sharpest under cognitive strain specifically.'
+            : `Mismatch worth noting — ${composureFav ? 'composed overall but cognitive tasks specifically spike their load' : 'general composure is the weaker spot even though cognitive load itself is well-handled'}.`
+      )
+    }
+    sections.push({
+      heading: 'Composure Proxy & Cognitive Load Index, explained',
+      body: [
+        cohortParts.join(' '),
+        personalParts.join(' ') || `Not enough data yet for ${formatSubjectId(subjectId)}'s composure/cognitive load.`,
+      ],
+    })
   }
 
   if (recovery) {
-    const recLine = recovery.point != null
-      ? `Recovery Rate tracks how quickly heart rate and stress markers return toward baseline after an active session ends — ${formatSubjectId(subjectId)} averages ${recovery.point.value}${recovery.unit ? ` ${recovery.unit.trim()}` : ''}, ${recovery.point.value >= recovery.mean ? 'above' : 'below'} the cohort mean of ${safeFixed(recovery.mean)}. Faster recovery generally signals a more resilient autonomic nervous system — one that can mount a stress response when needed and then stand down efficiently, rather than staying activated.`
-      : ''
-    if (recLine) sections.push({ heading: 'Recovery Rate', body: recLine })
+    const fav = _favorable(recovery)
+    const cohortPara = `Recovery Rate tracks how quickly heart rate and stress markers return toward baseline after an active session ends${recovery.hasSignal ? ` — cohort-wide it correlates ${_relationStrength(recovery.r)}ly with self-reported EQ (r = ${recovery.r})` : ''}. Faster recovery generally signals a more resilient autonomic nervous system — one that can mount a stress response when needed and then stand down efficiently, rather than staying activated.`
+    const personalPara = recovery.point == null
+      ? `No Recovery Rate data on file for ${formatSubjectId(subjectId)} yet.`
+      : `${formatSubjectId(subjectId)} averages ${recovery.point.value}${recovery.unit ? ` ${recovery.unit.trim()}` : ''}, ${fav ? 'above the cohort mean — a resilient nervous system that stands down efficiently after exertion, a good sign' : 'below the cohort mean — the body takes longer than most to return to baseline after activity, worth working on'} (cohort mean ${safeFixed(recovery.mean)}).`
+    sections.push({ heading: 'Recovery Rate', body: [cohortPara, personalPara] })
   }
 
   // --- rolled-up, actionable takeaways ---

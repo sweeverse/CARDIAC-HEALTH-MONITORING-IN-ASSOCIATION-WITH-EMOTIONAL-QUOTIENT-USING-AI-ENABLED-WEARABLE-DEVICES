@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Activity, Brain, Users, CloudSun, ShieldCheck, FileBarChart,
+  Activity, Brain, Users, ShieldCheck, FileBarChart,
   ArrowRight, Heart, ChevronDown, Menu, X,
 } from 'lucide-react'
 import EcgLine from '../components/EcgLine.jsx'
@@ -16,6 +16,11 @@ const STATS = [
 ]
 
 const FEATURES = [
+  {
+  icon: FileBarChart,
+  title: 'Interactive Dashboard',
+  desc: 'Explore real-time charts, session history, longitudinal trends, population comparisons, and downloadable reports through a unified analytics dashboard.',
+  },
   {
     icon: Brain,
     title: 'Emotional Quotient Analysis',
@@ -35,11 +40,6 @@ const FEATURES = [
     icon: Users,
     title: 'Population Benchmarking',
     desc: 'Percentile ranking against the full cohort and a similar-profile peer group matched on age and BMI — results that mean something in context.',
-  },
-  {
-    icon: CloudSun,
-    title: 'Environmental Correlation',
-    desc: 'Ambient temperature and humidity captured alongside every session, correlated with stress and HRV patterns to surface physical-environmental interactions.',
   },
   {
     icon: FileBarChart,
@@ -369,7 +369,7 @@ export default function Landing() {
       </section>
 
       {/* CTA banner */}
-      <section className="py-20" style={{ background: '#CF0A0A' }}>
+      <section className="py-20" style={{ background: '#A20909' }}>
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl lg:text-4xl font-display font-semibold text-white mb-4">
             Built for explainability. Validated against real cohort data.
@@ -417,9 +417,8 @@ export default function Landing() {
               </div>
             </div>
           </div>
-          <div className="pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style={{ borderColor: dark ? '#2C2F32' : '#D0CECE', color: dark ? '#444' : '#0F2421AA' }}>
-            <span>© 2026 CardioEQ AI — research-grade analytics, not a diagnostic medical device.</span>
-            <span>Unsupervised · No clinician labels</span>
+          <div className="pt-8 border-t flex flex-col sm:flex-row items-center justify-end gap-4 text-xs" style={{ borderColor: dark ? '#2C2F32' : '#D0CECE', color: dark ? '#444' : '#0F2421AA' }}>
+            <span></span>
           </div>
         </div>
       </section>

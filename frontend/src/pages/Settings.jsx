@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Shield, Database, Moon, Sun, Download, Trash2, Info, Loader2, UserX, CheckCircle2, RefreshCw, Clock, FileText } from 'lucide-react'
+import { Database, Moon, Sun, Download, Trash2, Loader2, UserX, CheckCircle2, RefreshCw, Clock, FileText } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useToast } from '../context/ToastContext.jsx'
@@ -212,22 +212,6 @@ export default function Settings() {
       {/* Delete Account (spec 5) — normal users only; the admin account
           can't be deleted from here (backend blocks it too). */}
       {!isAdmin && <DeleteAccount toast={toast} logout={logout} navigate={navigate} />}
-
-      {/* Privacy & Compliance */}
-      <div className="card p-5">
-        <SectionHeader icon={Shield} title="Privacy & Compliance" />
-        <div className="flex items-start gap-2 p-3 bg-brand-orange/5 dark:bg-orange-900/10 border border-brand-orange/20 dark:border-orange-900/30 rounded-lg mb-3">
-          <Info className="w-4 h-4 text-brand-orange mt-0.5 shrink-0" />
-          <p className="text-xs text-ink/70 dark:text-dark-muted leading-relaxed">
-            This is a research-grade analytics deployment, not a certified medical device.
-          </p>
-        </div>
-        <p className="text-sm text-ink/60 dark:text-dark-muted leading-relaxed">
-          Before handling real patient data, review HIPAA/local health-data regulations and ensure your
-          MongoDB Atlas cluster, JWT secret, and API keys are configured for a production-grade
-          security posture (network access lists, encryption at rest, rotated credentials).
-        </p>
-      </div>
     </div>
   )
 }

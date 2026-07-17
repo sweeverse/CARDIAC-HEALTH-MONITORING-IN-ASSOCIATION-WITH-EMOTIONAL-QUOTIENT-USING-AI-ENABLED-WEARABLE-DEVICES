@@ -89,7 +89,6 @@ export default function Sidebar({ open, onClose }) {
 
         <div className={`px-5 py-4 border-t border-line/70 dark:border-dark-border ${collapsed ? 'lg:hidden' : ''}`}>
           <p className="text-[11px] text-ink/65 dark:text-dark-muted leading-relaxed">
-            Research-grade analytics. Not a diagnostic medical device.
           </p>
         </div>
       </aside>

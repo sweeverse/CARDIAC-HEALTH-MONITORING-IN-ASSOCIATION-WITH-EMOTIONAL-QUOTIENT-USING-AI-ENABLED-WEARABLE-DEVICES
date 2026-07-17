@@ -47,7 +47,7 @@ export default function AuthLayout({ title, subtitle, children, footer }) {
         <Slideshow />
         <div className="relative z-10"><Logo dark size="lg" /></div>
         <div className="relative z-10">
-          <EcgLine className="w-full h-24 mb-8" stroke="#F2855F" strokeWidth={2.5} animate />
+          <EcgLine className="w-full h-24 mb-8" stroke="#AA0000" strokeWidth={2.5} animate />
           <h2 className="text-3xl font-display font-semibold leading-snug max-w-md drop-shadow-sm text-white">
             Every prediction, explained — from raw biosignal to recommendation.
           </h2>

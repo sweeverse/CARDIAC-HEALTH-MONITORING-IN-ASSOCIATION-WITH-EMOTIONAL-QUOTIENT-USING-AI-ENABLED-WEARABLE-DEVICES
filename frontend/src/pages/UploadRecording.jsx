@@ -139,6 +139,33 @@ function SubjectPicker({ value, onChange, knownSubjects }) {
   )
 }
 
+// Response scale legend, shown above the EQ questionnaire on this page only
+// (spec: Upload Recording page) — the questionnaire form itself still keeps
+// its own compact one-line reminder at the bottom for when it's used
+// elsewhere (retake/admin flows).
+function EqScaleLegend() {
+  const SCALE = [
+    { v: 5, label: 'Strongly Agree' },
+    { v: 4, label: 'Agree' },
+    { v: 3, label: 'Neutral' },
+    { v: 2, label: 'Disagree' },
+    { v: 1, label: 'Strongly Disagree' },
+  ]
+  return (
+    <div className="mb-3 p-2.5 bg-paper dark:bg-dark-surface border border-line/60 dark:border-dark-border rounded-lg">
+      <p className="text-[10px] font-bold text-ink/60 dark:text-dark-muted uppercase tracking-wide mb-1.5">Response scale</p>
+      <div className="grid grid-cols-5 gap-1 text-center">
+        {SCALE.map(({ v, label }) => (
+          <div key={v}>
+            <span className="block font-mono font-bold text-sm text-brand-red">{v}</span>
+            <span className="text-[10px] text-ink/70 dark:text-dark-muted leading-tight">{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function UploadRecording() {
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -435,6 +462,7 @@ export default function UploadRecording() {
             {eqStatus === 'no_baseline' && !eqSubmitted && (
               <>
                 <p className="text-xs text-ink/75 dark:text-dark-muted mb-3">No baseline yet — this is required before your first upload.</p>
+                <EqScaleLegend />
                 <EqQuestionnaireForm answers={eqAnswers} setAnswers={setEqAnswers} />
               </>
             )}
@@ -447,6 +475,7 @@ export default function UploadRecording() {
             )}
             {eqChoice === 'retake' && !eqSubmitted && (
               <>
+                <EqScaleLegend />
                 <EqQuestionnaireForm answers={eqAnswers} setAnswers={setEqAnswers} />
                 <button type="button" onClick={submitEqRetake} disabled={eqSaving || Object.keys(eqAnswers).length === 0} className="btn-primary text-xs mt-3 px-3 py-1.5">
                   {eqSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null} Save EQ retake

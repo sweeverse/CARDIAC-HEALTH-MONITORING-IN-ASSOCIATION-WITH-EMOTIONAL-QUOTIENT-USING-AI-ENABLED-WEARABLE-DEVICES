@@ -19,6 +19,8 @@ export const BIOMARKER_DIRECTION = {
   rr_interval_ms: 'neutral',
   bmi: 'neutral',
   age: 'neutral',
+  spo2: 'higher_better',
+  skin_temp_c: 'neutral',
 }
 
 export const DIRECTION_COLOR = {

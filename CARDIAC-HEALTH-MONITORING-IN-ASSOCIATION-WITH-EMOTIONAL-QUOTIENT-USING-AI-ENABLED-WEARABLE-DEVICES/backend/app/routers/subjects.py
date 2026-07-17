@@ -133,25 +133,7 @@ async def list_subjects(limit: int = Query(50, le=200), skip: int = 0,
     query = {} if is_admin else {"subject_id": normalize_subject_id(str(current_user.get("subject_id") or ""))}
     cursor = db[COL_SUBJECTS].find(query).skip(skip).limit(limit)
     docs = [_strip_id(d) async for d in cursor]
-
-    if is_admin:
-        # A subject whose owner_user_id no longer resolves to a COL_USERS
-        # doc means that user self-deleted their account (DELETE /me,
-        # which intentionally keeps the subject's research data per spec
-        # section 8 — see routers/auth.py:delete_account). The data stays,
-        # but it must stop showing up as a live cohort card once the
-        # account behind it is gone. Subjects with no owner_user_id at all
-        # (seed/dataset subjects, e.g. S01-S20, that never had a login)
-        # are untouched by this check.
-        owner_ids = {d["owner_user_id"] for d in docs if d.get("owner_user_id")}
-        existing_owner_ids = set()
-        if owner_ids:
-            valid_oids = [ObjectId(oid) for oid in owner_ids if ObjectId.is_valid(oid)]
-            async for u in db[COL_USERS].find({"_id": {"$in": valid_oids}}, {"_id": 1}):
-                existing_owner_ids.add(str(u["_id"]))
-        docs = [d for d in docs if not d.get("owner_user_id") or d["owner_user_id"] in existing_owner_ids]
-
-    total = len(docs) if is_admin else await db[COL_SUBJECTS].count_documents(query)
+    total = await db[COL_SUBJECTS].count_documents(query)
     return {"total": total, "subjects": docs}
 
 
@@ -183,32 +165,6 @@ async def get_sessions(subject_id: str, current_user: dict = Depends(get_current
     docs = [_strip_id(d) async for d in cursor]
     if not docs:
         raise HTTPException(status_code=404, detail="No sessions found for this subject.")
-
-    # session_risk_score: a flat average across every window in a whole
-    # recording session (all activities uploaded together, sharing
-    # session_batch_id — same grouping the frontend uses), weighted by
-    # each activity's window_count. Replaces the frontend's old
-    # mean-of-activity-averages (SessionsPanel.jsx), which weighted every
-    # activity equally regardless of window count and could drift from
-    # the subject-level risk score (itself a flat average over all
-    # windows) — e.g. 27.30 vs 27.11 on the same data. Computed once here
-    # so every session doc in a batch carries the same, already-correct
-    # value and nothing needs to recompute it client-side.
-    batches = {}
-    for d in docs:
-        key = d.get("session_batch_id") or d["session_id"]
-        batches.setdefault(key, []).append(d)
-    for group in batches.values():
-        weighted_sum, total_windows = 0.0, 0
-        for d in group:
-            score, windows = d.get("avg_risk_score"), d.get("window_count") or 0
-            if score is not None and windows:
-                weighted_sum += score * windows
-                total_windows += windows
-        session_risk_score = round2(weighted_sum / total_windows) if total_windows else None
-        for d in group:
-            d["session_risk_score"] = session_risk_score
-
     return {"subject_id": subject_id, "sessions": docs}
 
 
@@ -455,33 +411,6 @@ async def get_population_comparison(subject_id: str, current_user: dict = Depend
         {"subject_id": subject_id}, sort=[("recorded_at", -1)]
     )
 
-    risk_score = (subject.get("risk_assessment") or {}).get("risk_score")
-    risk_score_distribution = (pop_stats or {}).get("risk_score_distribution") or []
-
-    # cohort_comparison: the backend-computed interpretation of this
-    # subject's risk score against the cohort, so the frontend never has to
-    # average the distribution or decide the better/similar/worse wording
-    # itself. risk_score is LOWER-is-better (same convention used by the
-    # session-over-session trend in get_longitudinal below), so sitting
-    # notably BELOW the cohort average is "better than cohort", not worse.
-    # The +/-2 point band mirrors the same "stable" tolerance used there.
-    cohort_scores = [d["risk_score"] for d in risk_score_distribution if d.get("risk_score") is not None]
-    cohort_avg_risk_score = round2(sum(cohort_scores) / len(cohort_scores)) if cohort_scores else None
-    cohort_comparison = None
-    if risk_score is not None and cohort_avg_risk_score is not None:
-        diff = round2(risk_score - cohort_avg_risk_score)
-        classification = (
-            "worse than cohort" if diff >= 2 else
-            "better than cohort" if diff <= -2 else
-            "similar to cohort"
-        )
-        cohort_comparison = {
-            "subject_risk_score": risk_score,
-            "cohort_avg_risk_score": cohort_avg_risk_score,
-            "difference_from_cohort": diff,
-            "classification": classification,
-        }
-
     return {
         "subject_id": subject_id,
         "population_percentile": {k: round2(v) for k, v in (subject.get("population_percentile") or {}).items()} or None,
@@ -492,10 +421,8 @@ async def get_population_comparison(subject_id: str, current_user: dict = Depend
         # NEW: this subject's unsupervised risk_score plus the full cohort's
         # distribution, so the frontend can show where it falls among peers —
         # additive fields only, doesn't change anything existing consumers read.
-        "risk_score": risk_score,
-        "risk_score_distribution": risk_score_distribution,
-        "cohort_avg_risk_score": cohort_avg_risk_score,
-        "cohort_comparison": cohort_comparison,
+        "risk_score": (subject.get("risk_assessment") or {}).get("risk_score"),
+        "risk_score_distribution": (pop_stats or {}).get("risk_score_distribution"),
         # NEW: bucket cutpoints so the frontend can shade a "normal range"
         # band and color-code points by risk bucket (Task 19 2D visualization).
         "bucket_thresholds": ((pop_stats or {}).get("model_info") or {}).get("bucket_thresholds"),

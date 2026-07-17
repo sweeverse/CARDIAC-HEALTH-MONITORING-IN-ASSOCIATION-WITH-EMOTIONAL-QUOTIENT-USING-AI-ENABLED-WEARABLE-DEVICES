@@ -100,8 +100,11 @@ function RecordingSessionCard({ subjectId, group, isOpen, onToggle }) {
   const presentActivities = ACTIVITY_ORDER.filter((a) => group.activities[a])
   const [activeTab, setActiveTab] = useState(presentActivities[0] || 'population')
 
-  const scores = presentActivities.map((a) => group.activities[a].avg_risk_score).filter((v) => v != null)
-  const avgRisk = scores.length > 0 ? scores.reduce((a, b) => a + b, 0) / scores.length : null
+  // session_risk_score is computed backend-side (flat average across every
+  // window in the batch, weighted by window_count) — every activity doc in
+  // this group carries the same value, so just read it off the first one
+  // that has it rather than recalculating anything here.
+  const avgRisk = presentActivities.map((a) => group.activities[a].session_risk_score).find((v) => v != null) ?? null
   const totalWindows = presentActivities.reduce((sum, a) => sum + (group.activities[a].window_count || 0), 0)
 
   const activeSession = activeTab !== 'population' ? group.activities[activeTab] : null

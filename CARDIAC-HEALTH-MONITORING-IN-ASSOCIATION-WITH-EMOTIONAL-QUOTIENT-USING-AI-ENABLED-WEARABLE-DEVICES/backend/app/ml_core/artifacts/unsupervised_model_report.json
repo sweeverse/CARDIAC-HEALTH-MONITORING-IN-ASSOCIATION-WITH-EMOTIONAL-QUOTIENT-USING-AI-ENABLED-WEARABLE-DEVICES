@@ -1,0 +1,197 @@
+{
+  "model": "gmm_isolation_forest_unsupervised",
+  "cluster_quality": {
+    "silhouette_score": 0.2392,
+    "davies_bouldin_score": 4.9714,
+    "n_effective_clusters": 3
+  },
+  "bootstrap_stability": {
+    "n_bootstrap_iters": 50,
+    "mean_flip_rate": 0.1553,
+    "median_flip_rate": 0.02,
+    "pct_windows_over_25pct_flip": 15.8
+  },
+  "subject_homogeneity": [
+    {
+      "subject": "S12",
+      "n_windows": 55,
+      "mean": 53.0,
+      "std": 31.0,
+      "iqr": 57.5,
+      "min": 5.0,
+      "max": 99.4
+    },
+    {
+      "subject": "S09",
+      "n_windows": 55,
+      "mean": 38.0,
+      "std": 28.2,
+      "iqr": 42.1,
+      "min": 5.4,
+      "max": 99.9
+    },
+    {
+      "subject": "S15",
+      "n_windows": 64,
+      "mean": 41.0,
+      "std": 27.6,
+      "iqr": 48.4,
+      "min": 5.6,
+      "max": 95.8
+    },
+    {
+      "subject": "S19",
+      "n_windows": 50,
+      "mean": 50.5,
+      "std": 27.3,
+      "iqr": 48.6,
+      "min": 5.4,
+      "max": 95.3
+    },
+    {
+      "subject": "S11",
+      "n_windows": 57,
+      "mean": 33.5,
+      "std": 26.5,
+      "iqr": 46.2,
+      "min": 0.4,
+      "max": 91.9
+    },
+    {
+      "subject": "S01",
+      "n_windows": 53,
+      "mean": 38.4,
+      "std": 25.6,
+      "iqr": 36.4,
+      "min": 2.1,
+      "max": 96.7
+    },
+    {
+      "subject": "S10",
+      "n_windows": 60,
+      "mean": 51.6,
+      "std": 25.3,
+      "iqr": 43.3,
+      "min": 5.7,
+      "max": 95.7
+    },
+    {
+      "subject": "S04",
+      "n_windows": 53,
+      "mean": 52.3,
+      "std": 23.3,
+      "iqr": 34.6,
+      "min": 11.9,
+      "max": 94.0
+    },
+    {
+      "subject": "S03",
+      "n_windows": 59,
+      "mean": 31.8,
+      "std": 22.6,
+      "iqr": 25.5,
+      "min": 2.0,
+      "max": 90.5
+    },
+    {
+      "subject": "S02",
+      "n_windows": 64,
+      "mean": 27.3,
+      "std": 22.3,
+      "iqr": 27.2,
+      "min": 1.2,
+      "max": 96.0
+    },
+    {
+      "subject": "S06",
+      "n_windows": 53,
+      "mean": 29.7,
+      "std": 21.7,
+      "iqr": 31.9,
+      "min": 0.5,
+      "max": 95.3
+    },
+    {
+      "subject": "S16",
+      "n_windows": 52,
+      "mean": 61.3,
+      "std": 21.2,
+      "iqr": 33.5,
+      "min": 15.7,
+      "max": 99.7
+    },
+    {
+      "subject": "S13",
+      "n_windows": 50,
+      "mean": 47.3,
+      "std": 20.8,
+      "iqr": 26.4,
+      "min": 2.0,
+      "max": 82.9
+    },
+    {
+      "subject": "S17",
+      "n_windows": 54,
+      "mean": 39.5,
+      "std": 20.7,
+      "iqr": 16.5,
+      "min": 9.1,
+      "max": 94.1
+    },
+    {
+      "subject": "S08",
+      "n_windows": 53,
+      "mean": 54.5,
+      "std": 19.5,
+      "iqr": 24.4,
+      "min": 1.0,
+      "max": 94.7
+    },
+    {
+      "subject": "S20",
+      "n_windows": 49,
+      "mean": 71.4,
+      "std": 19.2,
+      "iqr": 20.8,
+      "min": 11.5,
+      "max": 98.1
+    },
+    {
+      "subject": "S05",
+      "n_windows": 56,
+      "mean": 63.2,
+      "std": 16.5,
+      "iqr": 23.4,
+      "min": 23.1,
+      "max": 87.9
+    },
+    {
+      "subject": "S07",
+      "n_windows": 51,
+      "mean": 69.3,
+      "std": 15.2,
+      "iqr": 14.3,
+      "min": 37.5,
+      "max": 98.5
+    },
+    {
+      "subject": "S18",
+      "n_windows": 54,
+      "mean": 76.7,
+      "std": 13.6,
+      "iqr": 23.6,
+      "min": 48.2,
+      "max": 99.4
+    },
+    {
+      "subject": "S14",
+      "n_windows": 46,
+      "mean": 85.9,
+      "std": 10.8,
+      "iqr": 9.2,
+      "min": 56.5,
+      "max": 99.6
+    }
+  ],
+  "note": "All metrics above are internal validity measures computed without any reference to clinical labels or ground truth \u2014 there is none in this pipeline, by design."
+}

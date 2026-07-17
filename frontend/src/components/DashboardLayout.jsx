@@ -26,8 +26,7 @@ export default function DashboardLayout() {
         <main className="flex-1 p-4 sm:p-6 max-w-[1400px] w-full mx-auto">
           <Outlet />
         </main>
-        <footer className="border-t border-line/70 dark:border-dark-border px-6 py-4 text-xs text-ink/65 dark:text-dark-muted flex items-center justify-between">
-          <span>CardioEQ AI — research-grade analytics, not a diagnostic medical device.</span>
+        <footer className="border-t border-line/70 dark:border-dark-border px-6 py-4 text-xs text-ink/65 dark:text-dark-muted flex items-center justify-end">
           <span className="font-mono">v1.0.0</span>
         </footer>
       </div>
