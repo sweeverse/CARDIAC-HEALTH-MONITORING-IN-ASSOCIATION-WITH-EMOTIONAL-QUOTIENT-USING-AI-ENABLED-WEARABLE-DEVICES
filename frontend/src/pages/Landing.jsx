@@ -244,7 +244,7 @@ export default function Landing() {
               CardioEQ AI fuses calibrated cardiovascular risk scoring with ECG-derived HRV analytics,
               emotional regulation proxy indices, and environmental context — turning every wearable
               sensor recording into an explainable ML Risk Score, computed by a fully unsupervised
-              model with zero clinician labels anywhere in the pipeline.
+              model.
             </p>
             <div className="flex items-center gap-4 flex-wrap">
               <Link to="/sign-up" className="btn-primary px-6 py-3 text-base">
