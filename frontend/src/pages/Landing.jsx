@@ -56,12 +56,17 @@ const HOW_IT_WORKS = [
 ]
 
 // Hero background: rotating set of cardiac/ECG-monitor photos, each
-// crossfaded under the same color-scheme overlay for legibility.
+// crossfaded under the same color-scheme overlay for legibility. Served
+// locally from /public/images/landing — same curated set used across the
+// site (login/signup, research section).
 const HERO_BG_IMAGES = [
-  'https://images.unsplash.com/photo-1682706841289-9d7ddf5eb999?q=80&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1682706841281-f723c5bfcd83?q=80&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1513224502586-d1e602410265?q=80&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1682706841297-5524ba1faa9c?q=80&w=1600&auto=format&fit=crop',
+  '/images/landing/heart-glow.png',
+  '/images/landing/ecg-monitor-closeup.png',
+  '/images/landing/Bad-habits-that-can-harm-your-heart-health-.png',
+  '/images/landing/heart-monitor-gym.png',
+  '/images/landing/runner-sunset.png',
+  '/images/landing/brain-anatomy.png',
+
 ]
 const HERO_OVERLAY = 'linear-gradient(135deg, rgba(0,0,0,0.88) 0%, rgba(26,0,0,0.82) 40%, rgba(45,5,5,0.75) 70%, rgba(207,10,10,0.35) 100%)'
 // A bit faster than before (was 6000ms) with a longer, smoother crossfade
@@ -70,8 +75,9 @@ const HERO_OVERLAY = 'linear-gradient(135deg, rgba(0,0,0,0.88) 0%, rgba(26,0,0,0
 const HERO_SLIDE_MS = 4500
 const HERO_FADE_MS = 2200
 
-// Research mission photo (ECG tracing / research-analysis theme)
-const RESEARCH_BG_IMAGE = 'https://images.unsplash.com/photo-1755287066058-80c68aaaf0e3?q=80&w=1200&auto=format&fit=crop'
+// Research mission photo — clinician reviewing data on a mobile device,
+// served locally from /public/images/landing.
+const RESEARCH_BG_IMAGE = '/images/landing/doctor-phone.png'
 
 export default function Landing() {
   const { dark, toggle } = useTheme()

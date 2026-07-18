@@ -3,14 +3,16 @@ import EcgLine from './EcgLine.jsx'
 import Logo from './Logo.jsx'
 
 // A small curated set of cardio/wearable/research-themed photos for the
-// left-panel slideshow — fixed Unsplash photo IDs (not the old randomized
-// source.unsplash.com endpoint), so the same handful of images load every
-// time rather than a different random photo on every visit.
+// left-panel slideshow — served locally from /public/images/landing so they
+// load reliably (no external hotlink dependency) and match the same set
+// used elsewhere on the site.
 const SLIDES = [
-  'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1400&auto=format&fit=crop', // smartwatch heart rate
-  'https://images.unsplash.com/photo-1584982751601-97dcc096659c?q=80&w=1400&auto=format&fit=crop', // ecg monitor
-  'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1400&auto=format&fit=crop', // runner outdoors
-  'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?q=80&w=1400&auto=format&fit=crop', // data / research desk
+  '/images/landing/heart-glow.png', // glowing 3D heart render
+  '/images/landing/ecg-monitor-closeup.png',
+  '/images/landing/heart-monitor-gym.png',
+  '/images/landing/Bad-habits-that-can-harm-your-heart-health-.png', // ECG waveform + SpO2 monitor
+  '/images/landing/runner-sunset.png', // runner silhouette, activity/exertion
+  '/images/landing/brain-emotions.png', // brain + emotion icons, EQ theme
 ]
 
 function Slideshow() {

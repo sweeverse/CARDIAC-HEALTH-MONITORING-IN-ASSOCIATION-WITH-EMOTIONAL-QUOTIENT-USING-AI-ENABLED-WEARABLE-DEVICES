@@ -235,6 +235,13 @@ function MetricChart({ metric, data, insights, activity }) {
     ? buildConclusion(metric, { avg, isInNormalRange, trend, activity, peakVal })
     : `No data recorded yet for this activity.`
 
+  const validTMins = data
+    .filter((d) => d[metric.key] != null && !Number.isNaN(d[metric.key]) && d.t_min != null)
+    .map((d) => d.t_min)
+  const xDomain = validTMins.length >= 2
+    ? [Math.min(...validTMins), Math.max(...validTMins)]
+    : ['dataMin', 'dataMax']
+
   return (
     <div className="card p-5">
       <div className="flex items-center justify-between mb-1">
@@ -256,7 +263,7 @@ function MetricChart({ metric, data, insights, activity }) {
         <LineChart data={data} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#E6E1D3" />
           <XAxis
-            dataKey="t_min" type="number" domain={['dataMin', 'dataMax']}
+            dataKey="t_min" type="number" domain={xDomain} allowDataOverflow
             tick={{ fontSize: 10, fill: '#0F242199' }}
             label={{ value: 'min', position: 'insideBottomRight', offset: -2, fontSize: 10 }}
           />

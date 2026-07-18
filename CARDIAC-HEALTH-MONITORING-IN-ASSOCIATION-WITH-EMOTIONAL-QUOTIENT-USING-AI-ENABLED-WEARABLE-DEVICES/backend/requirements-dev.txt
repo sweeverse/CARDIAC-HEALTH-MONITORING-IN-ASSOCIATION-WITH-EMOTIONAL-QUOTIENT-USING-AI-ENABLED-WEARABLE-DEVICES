@@ -1,6 +1,0 @@
--r requirements.txt
-
-# Test-only — used by smoke_test.py to run the full backend E2E suite
-# against an in-memory Mongo mock, no real Atlas connection needed.
-mongomock==4.3.0
-mongomock-motor==0.0.36

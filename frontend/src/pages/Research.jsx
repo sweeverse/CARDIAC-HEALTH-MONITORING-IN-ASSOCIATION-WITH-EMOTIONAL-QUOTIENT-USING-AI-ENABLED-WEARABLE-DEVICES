@@ -126,9 +126,7 @@ export default function Research() {
   return (
     <div className="space-y-6">
       <p className="text-sm text-ink/80 dark:text-dark-muted -mt-2">
-        How Emotional Intelligence relates to cardiovascular health across this cohort, plus model-validation
-        research tools. (The EQ questionnaire itself now lives in the Upload Recording flow and, for existing
-        subjects, the per-subject Retake option — see Admin EQ Management to backfill a baseline.)
+
       </p>
 
       {loading ? (

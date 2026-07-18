@@ -6,6 +6,33 @@ import EqQuestionnaireForm from '../components/EqQuestionnaireForm.jsx'
 import { formatSubjectId, subjectIdMatches } from '../lib/subjectId.js'
 import { notifyDataChanged } from '../lib/syncBus.js'
 
+// Response scale legend — same "1 = Strongly Disagree ... 5 = Strongly
+// Agree" legend shown above the questionnaire on the Upload Recording page,
+// duplicated here (rather than shared) so this file has no dependency on
+// that page's internals.
+function EqScaleLegend() {
+  const SCALE = [
+    { v: 5, label: 'Strongly Agree' },
+    { v: 4, label: 'Agree' },
+    { v: 3, label: 'Neutral' },
+    { v: 2, label: 'Disagree' },
+    { v: 1, label: 'Strongly Disagree' },
+  ]
+  return (
+    <div className="mb-3 p-2.5 bg-paper dark:bg-dark-surface border border-line/60 dark:border-dark-border rounded-lg">
+      <p className="text-[10px] font-bold text-ink/60 dark:text-dark-muted uppercase tracking-wide mb-1.5">Response scale</p>
+      <div className="grid grid-cols-5 gap-1 text-center">
+        {SCALE.map(({ v, label }) => (
+          <div key={v}>
+            <span className="block font-mono font-bold text-sm text-brand-red">{v}</span>
+            <span className="text-[10px] text-ink/70 dark:text-dark-muted leading-tight">{label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 // Card-based EQ management (spec C.3): one card per subject, a subject
 // number search field for quick navigation, and direct view/edit of each
 // participant's EQ self-report baseline.
@@ -88,6 +115,7 @@ export default function AdminEqManagement() {
             </div>
           )}
 
+          <EqScaleLegend />
           <EqQuestionnaireForm answers={answers} setAnswers={setAnswers} />
 
           <button onClick={submit} disabled={status === 'loading' || Object.keys(answers).length === 0} className="btn-primary mt-4">
