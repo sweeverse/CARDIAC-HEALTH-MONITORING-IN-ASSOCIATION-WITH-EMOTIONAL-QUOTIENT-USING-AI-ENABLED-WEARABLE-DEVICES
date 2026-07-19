@@ -247,15 +247,22 @@ export default function UploadRecording() {
       .catch(() => setEqStatus('no_baseline'))
   }, [activeSubjectId])
 
-  const submitEqRetake = async () => {
+  // Saves the EQ self-report on its own, immediately, with no session CSV
+  // required. Used by both the first-time ("no baseline yet") form and the
+  // Retake flow — the backend endpoint (POST /{subject_id}/eq-assessment)
+  // already supports being called standalone; this was previously only
+  // wired up for Retake, forcing first-time users to also upload a
+  // recording just to get their EQ score saved.
+  const saveEqStandalone = async () => {
     if (Object.keys(eqAnswers).length === 0) return
     setEqSaving(true)
     try {
       await Endpoints.submitEqAssessment(activeSubjectId, eqAnswers)
       setEqSubmitted(true)
+      setEqStatus('has_baseline')
       toast?.success('EQ self-report saved.')
     } catch {
-      setError('Could not save the EQ questionnaire. Try again before uploading.')
+      setError('Could not save the EQ questionnaire. Try again.')
     } finally {
       setEqSaving(false)
     }
@@ -464,6 +471,15 @@ export default function UploadRecording() {
                 <p className="text-xs text-ink/75 dark:text-dark-muted mb-3">No baseline yet — this is required before your first upload.</p>
                 <EqScaleLegend />
                 <EqQuestionnaireForm answers={eqAnswers} setAnswers={setEqAnswers} />
+                <button
+                  type="button"
+                  onClick={saveEqStandalone}
+                  disabled={eqSaving || Object.keys(eqAnswers).length === 0}
+                  className="btn-secondary text-xs mt-3 px-3 py-1.5"
+                  title="Save your EQ score now, without uploading a recording"
+                >
+                  {eqSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null} Save EQ only
+                </button>
               </>
             )}
             {eqStatus === 'has_baseline' && !eqChoice && !eqSubmitted && (
@@ -477,7 +493,7 @@ export default function UploadRecording() {
               <>
                 <EqScaleLegend />
                 <EqQuestionnaireForm answers={eqAnswers} setAnswers={setEqAnswers} />
-                <button type="button" onClick={submitEqRetake} disabled={eqSaving || Object.keys(eqAnswers).length === 0} className="btn-primary text-xs mt-3 px-3 py-1.5">
+                <button type="button" onClick={saveEqStandalone} disabled={eqSaving || Object.keys(eqAnswers).length === 0} className="btn-primary text-xs mt-3 px-3 py-1.5">
                   {eqSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null} Save EQ retake
                 </button>
               </>

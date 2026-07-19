@@ -55,19 +55,42 @@ async def ensure_indexes():
 
 
 async def next_available_subject_id() -> str:
-    """Next unused Subject ID (S1, S2, ...), never entered manually (A.1.3)."""
+    """
+    Lowest UNUSED Subject ID (S1, S2, ...) — never entered manually
+    (A.1.3). Fills gaps left by deleted accounts instead of always
+    incrementing past the historical max: a plain max+1 scheme means a
+    freed ID (e.g. after an admin delete) never gets reused as long as any
+    higher-numbered subject still exists, since the scan only ever looks
+    at the ceiling, not at which numbers in between are actually free.
+
+    Reserved IDs in EMAIL_SUBJECT_MAP are permanently skipped even while
+    currently unused, so gap-filling never hands a reserved ID (held for
+    a specific teammate email that hasn't signed up yet) to someone else.
+    """
     import re
+    from app.config import EMAIL_SUBJECT_MAP
+
     db = get_db()
-    max_n = 0
+    used = set()
     async for doc in db[COL_SUBJECTS].find({}, {"subject_id": 1}):
         m = re.match(r"^[A-Za-z]*(\d+)$", str(doc.get("subject_id") or ""))
         if m:
-            max_n = max(max_n, int(m.group(1)))
+            used.add(int(m.group(1)))
     async for doc in db[COL_USERS].find({"subject_id": {"$ne": None}}, {"subject_id": 1}):
         m = re.match(r"^[A-Za-z]*(\d+)$", str(doc.get("subject_id") or ""))
         if m:
-            max_n = max(max_n, int(m.group(1)))
-    return f"S{max_n + 1:02d}"
+            used.add(int(m.group(1)))
+
+    reserved = set()
+    for sid in EMAIL_SUBJECT_MAP.values():
+        m = re.match(r"^[A-Za-z]*(\d+)$", str(sid))
+        if m:
+            reserved.add(int(m.group(1)))
+
+    n = 1
+    while n in used or n in reserved:
+        n += 1
+    return f"S{n:02d}"
 
 
 async def ensure_subject_doc(db, subject_id: str, owner_user_id: str) -> None:
@@ -167,4 +190,3 @@ async def ensure_admin_account():
         },
         upsert=True,
     )
-

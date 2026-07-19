@@ -4,7 +4,7 @@ from bson import ObjectId
 from fastapi import APIRouter, HTTPException, Depends, status
 
 from app.db import (
-    get_db, COL_USERS, COL_PASSWORD_RESETS, COL_SUBJECTS, next_available_subject_id,
+    get_db, COL_USERS, COL_PASSWORD_RESETS, COL_SUBJECTS, COL_SESSIONS, next_available_subject_id,
     cascade_delete_subject_data, ensure_subject_doc, backfill_missing_subject_docs,
 )
 from app.config import EMAIL_SUBJECT_MAP
@@ -195,19 +195,25 @@ async def delete_account(current_user: dict = Depends(get_current_user)):
     bootstrap account, not a self-service account, so it can't delete
     itself through this endpoint.
 
-    This removes the LOGIN account (COL_USERS doc) — the existing access
-    token is rejected immediately afterward since get_current_user
-    re-fetches the user doc on every request. It deliberately does NOT
-    touch the linked subject's research data (COL_SUBJECTS/sessions/
-    timeseries/insights): that's cohort research data, not "account" data,
-    and spec section 8 requires uploaded data to never be lost. If a
-    genuine full data-wipe (including their subject's recordings) is ever
-    needed, that's a separate, explicit admin action — not an implicit
-    side effect of a user deleting their own login.
+    Removes the LOGIN account (COL_USERS doc) always. The linked subject's
+    RESEARCH DATA is preserved (spec section 8: uploaded data must never
+    be silently lost) *unless* that subject has zero recordings — in that
+    case there is nothing to protect, and leaving the empty stub around
+    would just permanently burn that subject_id from
+    next_available_subject_id()'s pool for no reason. So: has sessions ->
+    keep the subject doc, drop only the login. Has no sessions -> full
+    cascade delete, freeing the subject_id for reuse.
     """
     db = get_db()
     if current_user.get("role") == "admin":
         raise HTTPException(status_code=403, detail="The administrator account can't be deleted from here.")
+
+    subject_id = current_user.get("subject_id")
+    if subject_id:
+        subject_id = normalize_subject_id(subject_id)
+        has_sessions = await db[COL_SESSIONS].count_documents({"subject_id": subject_id}, limit=1)
+        if not has_sessions:
+            await cascade_delete_subject_data(db, subject_id)
 
     await db[COL_USERS].delete_one({"_id": ObjectId(current_user["_id"])})
     return {"message": "Account deleted."}
@@ -215,12 +221,12 @@ async def delete_account(current_user: dict = Depends(get_current_user)):
 
 # --- Admin User Management (Task 4) ---------------------------------------
 # Distinct from DELETE /me above: that's a normal user's own self-service
-# account deletion, which deliberately preserves their subject's research
-# data. These endpoints are the "separate, explicit admin action" that
-# comment refers to — a full purge (login account + every piece of that
-# subject's data), or, for creation, a brand-new participant with an
-# auto-assigned Subject ID, immediately queryable with no caching layer to
-# invalidate.
+# account deletion, which preserves their subject's research data whenever
+# that subject actually has any. These endpoints are the "separate,
+# explicit admin action" — a full purge (login account + every piece of
+# that subject's data, regardless of whether it has sessions), or, for
+# creation, a brand-new participant with an auto-assigned Subject ID,
+# immediately queryable with no caching layer to invalidate.
 
 @router.get("/admin/users")
 async def admin_list_users(current_admin: dict = Depends(get_current_admin)):
@@ -308,6 +314,19 @@ async def admin_delete_user(user_id: str, current_admin: dict = Depends(get_curr
     for this subject_id). Cohort analytics are recalculated immediately
     afterward so no stale percentile/cohort-stat data lingers for the
     remaining subjects (Task 4 + Task 7).
+
+    ORDER MATTERS: cascade the subject's data FIRST, then delete the user
+    doc LAST. If this were reversed (user deleted first) and the cascade
+    step then failed or errored partway (network blip, transient DB error,
+    etc.), the user login would already be gone with no way to retry —
+    leaving a permanently orphaned subjects/sessions/timeseries/insights
+    doc for that subject_id. That orphan is invisible to admin_list_users
+    (reads from COL_USERS) and to Cohort Overview if it also filters on a
+    live user, but it still gets counted by next_available_subject_id()'s
+    scan — silently burning that subject_id forever and shifting every
+    later signup's assigned ID. Doing the cascade first means if anything
+    fails, the user doc is still present and the whole delete can simply
+    be retried from the UI.
     """
     db = get_db()
     try:
@@ -321,13 +340,15 @@ async def admin_delete_user(user_id: str, current_admin: dict = Depends(get_curr
     if user.get("role") == "admin":
         raise HTTPException(status_code=403, detail="The administrator account can't be deleted.")
 
-    await db[COL_USERS].delete_one({"_id": oid})
-
     cascade_result = {"sessions_deleted": 0, "windows_deleted": 0, "insights_deleted": 0, "subject_deleted": False}
     subject_id = user.get("subject_id")
     if subject_id:
         subject_id = normalize_subject_id(subject_id)
         cascade_result = await cascade_delete_subject_data(db, subject_id)
+
+    # Only remove the login account once the cascade above has actually
+    # succeeded — see the ordering note in the docstring.
+    await db[COL_USERS].delete_one({"_id": oid})
 
     # Recalculate cohort analytics after deletion (Task 4) — the departed
     # subject's data must not linger in anyone else's percentile/cohort
